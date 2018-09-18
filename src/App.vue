@@ -1,18 +1,32 @@
 <template>
   <main id="app">
     <h1>Colour List</h1>
-    <h2>{{colours.hex}}</h2>
-    <h3>{{getHexName(colours.hex)}}</h3>
-    <sketch-picker v-model='colours' @input='updateValue' />
+    <section>
+      <h2>{{newColourInput}}</h2>
+      <h3>{{getHexName(newColourInput)}}</h3>
+
+      <input type='text' placeholder='Colour Name' v-model='newColourInput' />
+      <button type='button' @click='addNewColour' :disabled='!isNewColourValid'>Add</button>
+      <hr>
+      <h2>{{newColour.hex}}</h2>
+      <h3>{{getHexName(newColour.hex)}}</h3>
+      <sketch-picker v-model='newColour' @input='updateValue' />
+    </section>
+    <List :colours='colours' />
+    <Output :colours='colours' />
   </main>
 </template>
 
 <script>
 import { Sketch } from 'vue-color'
 import ntc from './assets/scripts/name-that-color'
+import List from './components/List.vue'
+import Output from './components/Output.vue'
 
 const data = {
-  colours: '#194d33'
+  newColour: '#194d33',
+  newColourInput: '#',
+  colours: []
 }
 
 export default {
@@ -20,7 +34,9 @@ export default {
 
   components: {
     ntc,
-    'sketch-picker': Sketch
+    'sketch-picker': Sketch,
+    List,
+    Output
   },
 
   data: () => {
@@ -36,14 +52,42 @@ export default {
       console.log('update', colourVal.hex, ntc.name(colourVal.hex))
     },
 
+    addNewColour () {
+      if (this.isNewColourValid) {
+        let colours = this.colours.slice()
+        let newColour = this.newColourInput.toLowerCase()
+        let [match, colourHex] = newColour.match(/([0-9a-f]+)$/)
+
+        // if a 3 letter hex then double the letters
+        if (match && colourHex.length === 3) {
+          const splitColour = colourHex.split('')
+          const doubleLetters = (accumulator, letter) => `${accumulator}${letter}${letter}`
+          colourHex = splitColour.reduce(doubleLetters, '')
+        }
+
+        newColour = '#' + colourHex
+
+        if (!colours.includes(newColour)) {
+          colours.push('#' + colourHex)
+          this.colours = colours
+        }
+        this.newColourInput = ''
+      }
+    },
+
     getHexName (hex) {
-      console.log(hex)
       if (hex !== undefined) {
         const name = ntc.name(hex)
         return name[1]
       } else {
         return '---'
       }
+    }
+  },
+
+  computed: {
+    isNewColourValid () {
+      return /^(#|)([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(this.newColourInput)
     }
   }
 }
