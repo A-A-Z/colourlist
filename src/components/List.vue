@@ -1,11 +1,15 @@
 <template>
   <section>
-    <ul>
+    <ul class='colour-list'>
       <li
         v-for='colour in colours'
+        class='colour-list__item'
         :style='{ backgroundColor: colour }'
         :key='colour'
-      >{{colour}}</li>
+      >
+        <span class='colour-list__label'>Label Name</span>
+        <span class='colour-list__hex'>{{colour}}</span>
+      </li>
     </ul>
   </section>
 </template>

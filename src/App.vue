@@ -26,7 +26,7 @@ import Output from './components/Output.vue'
 const data = {
   newColour: '#194d33',
   newColourInput: '#',
-  colours: []
+  colours: ['#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000']
 }
 
 export default {
@@ -94,6 +94,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700,900");
+@import './assets/styles/app';
+body {
+  font-family: 'Montserrat', sans-serif;
+}
 // #app {
 //   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 //   -webkit-font-smoothing: antialiased;
