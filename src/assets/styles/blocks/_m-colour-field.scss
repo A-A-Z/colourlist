@@ -1,0 +1,20 @@
+
+.m-colour-field {
+
+  &__input {
+    border: 1px solid #ddd;
+    border-width: 0 0 1px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    width: 300px;
+
+    &:focus {
+      outline: 0; // TODO replace this
+    }
+  }
+
+  &__add {
+
+  }
+}

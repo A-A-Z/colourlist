@@ -1,12 +1,22 @@
 <template>
   <main id="app">
-    <h1>Colour List</h1>
+    <heading class='o-main-heading'>
+      <h1 class='o-main-heading__title'>Colour List</h1>
+    </heading>
     <section>
       <h2>{{newColourInput}}</h2>
       <h3>{{getHexName(newColourInput)}}</h3>
 
-      <input type='text' placeholder='Colour Name' v-model='newColourInput' />
-      <button type='button' @click='addNewColour' :disabled='!isNewColourValid'>Add</button>
+      <div class='m-colour-field'>
+        <input
+          class='m-colour-field__input'
+          type='text'
+          placeholder='Colour Name'
+          v-model='newColourInput'
+          spellcheck='false'
+        />
+        <button class='m-colour-field__add' type='button' @click='addNewColour' :disabled='!isNewColourValid'>Add</button>
+      </div>
       <hr>
       <h2>{{newColour.hex}}</h2>
       <h3>{{getHexName(newColour.hex)}}</h3>

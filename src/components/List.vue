@@ -1,14 +1,14 @@
 <template>
   <section>
-    <ul class='colour-list'>
+    <ul class='o-colour-list'>
       <li
         v-for='colour in colours'
-        class='colour-list__item'
+        class='o-colour-list__item'
         :style='{ backgroundColor: colour }'
         :key='colour'
       >
-        <span class='colour-list__label'>Label Name</span>
-        <span class='colour-list__hex'>{{colour}}</span>
+        <span class='o-colour-list__label'>Label Name</span>
+        <span class='o-colour-list__hex'>{{colour}}</span>
       </li>
     </ul>
   </section>
