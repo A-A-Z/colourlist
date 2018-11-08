@@ -1,42 +1,37 @@
 <template>
   <main id="app">
-    <heading class='o-main-heading'>
+    <header class='o-main-heading'>
       <h1 class='o-main-heading__title'>Colour List</h1>
-    </heading>
+    </header>
     <section>
       <h2>{{newColourInput}}</h2>
       <h3>{{getHexName(newColourInput)}}</h3>
-
-      <div class='m-colour-field'>
-        <input
-          class='m-colour-field__input'
-          type='text'
-          placeholder='Colour Name'
-          v-model='newColourInput'
-          spellcheck='false'
-        />
-        <button class='m-colour-field__add' type='button' @click='addNewColour' :disabled='!isNewColourValid'>Add</button>
-      </div>
       <hr>
       <h2>{{newColour.hex}}</h2>
       <h3>{{getHexName(newColour.hex)}}</h3>
-      <sketch-picker v-model='newColour' @input='updateValue' />
     </section>
+    <NewColour
+      :newColourInput='newColourInput'
+      :isNewColourValid='isNewColourValid'
+      :updateNewColour='updateNewColour'
+      :saveColour='saveColour'
+    />
     <List :colours='colours' />
     <Output :colours='colours' />
   </main>
 </template>
 
 <script>
-import { Sketch } from 'vue-color'
 import ntc from './assets/scripts/name-that-color'
+import NewColour from './components/NewColour.vue'
 import List from './components/List.vue'
 import Output from './components/Output.vue'
 
 const data = {
   newColour: '#194d33',
   newColourInput: '#',
-  colours: ['#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000']
+  colours: ['#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000'],
+  preSetColours: []
 }
 
 export default {
@@ -44,7 +39,7 @@ export default {
 
   components: {
     ntc,
-    'sketch-picker': Sketch,
+    NewColour,
     List,
     Output
   },
@@ -59,10 +54,16 @@ export default {
 
   methods: {
     updateValue (colourVal) {
+      // TODO Update this
       console.log('update', colourVal.hex, ntc.name(colourVal.hex))
     },
 
-    addNewColour () {
+    updateNewColour (newValue) {
+      console.log('new colour value', newValue)
+      this.newColourInput = newValue
+    },
+
+    saveColour () {
       if (this.isNewColourValid) {
         let colours = this.colours.slice()
         let newColour = this.newColourInput.toLowerCase()
