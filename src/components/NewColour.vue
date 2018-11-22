@@ -2,21 +2,44 @@
   <section>
     new colour form
 
+    <div
+      :class="[
+        'm-colour-preview',
+        isNewColourValid ? '' : 'm-colour-preview--invalid'
+      ]"
+      :style="{
+        backgroundColor: isNewColourValid ? newColourInput : '#fff'
+      }"
+    >
+      <div
+        v-if='isNewColourValid'
+        class='m-colour-preview__label'
+      >
+        Colour name
+      </div>
+      <div v-else class='m-colour-preview__label'>Invalid Colour</div>
+    </div>
+
     <div class='m-colour-field'>
       <input
         class='m-colour-field__input'
         type='text'
-        placeholder='Colour Name'
+        placeholder='#'
         :value='newColourInput'
+        :maxlength='7'
         spellcheck='false'
         @input='updateColourInput'
+        @keyup.enter="saveColour"
       />
       <button
-        class='m-colour-field__add'
+        :class="[
+          'm-colour-field__add',
+          isNewColourValid ? '' : 'm-colour-field__add--disabled'
+        ]"
         type='button'
         @click='saveColour'
         :disabled='!isNewColourValid'
-      >Add</button>
+      />
     </div>
 
     <sketch-picker
@@ -31,6 +54,7 @@
 
 <script>
 import { Sketch } from 'vue-color'
+import Patterns from '../helpers/Patterns'
 
 const data = {
   pickerColour: '#194d33',
@@ -70,7 +94,11 @@ export default {
   methods: {
     updateColourInput (e) {
       console.log('updateColourInput', e.target.value)
-      this.updateNewColour(e.target.value)
+      const newValue = e.target.value
+      if (Patterns.inputColour.test(newValue)) {
+        this.updateNewColour(newValue)
+      }
+      this.updateNewColour(newValue)
     },
 
     updatePickerValue (value) {

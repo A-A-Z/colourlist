@@ -7,7 +7,14 @@
 
 // blocks
 
+// organisms
 @import './blocks/o-colour-list';
+@import './blocks/o-config';
 @import './blocks/o-main-heading';
 
+// molecules
 @import './blocks/m-colour-field';
+@import './blocks/m-colour-preview';
+
+// atoms
+@import './blocks/a-checkbox';

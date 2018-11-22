@@ -1,0 +1,27 @@
+
+.a-checkbox {
+  display: none;
+
+  // non-checked icon
+  &+ label {
+    align-items: center;
+    display: flex;
+
+    &:before {
+      display: inline-block;
+      content: '\f0c8';
+      cursor: pointer;
+      font-family: $font-fontawesome;
+      font-size: 1.5em;
+      font-weight: 900;
+      margin-right: 0.4em;
+    }
+  }
+
+  // checked icon
+  &--checked {
+    &+ label:before {
+      content: '\f14a';
+    }
+  }
+}

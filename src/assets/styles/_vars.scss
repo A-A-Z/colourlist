@@ -1,9 +1,16 @@
 
 // colours
+$colour-mercury: #e4e4e4;
+$colour-mine-shaft: #222222;
 $colour-white: #ffffff;
 
 // assigned colours
 $colour-background: $colour-white;
+$colour-text: $colour-mine-shaft;
+
+// fonts
+$font-fontawesome: 'Font Awesome 5 Free';
+$font-montserrat: 'Montserrat', sans-serif;
 
 // mixins
 @function calculateRem($size) {
