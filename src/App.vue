@@ -39,28 +39,37 @@ import Output from './components/Output.vue'
 import ConfigForm from './components/ConfigForm.vue'
 import Patterns from './helpers/Patterns'
 
-const data = {
-  newColour: '#194d33',
-  newColourInput: '#',
-  colours: ['#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000'],
-  preSetColours: [],
-  configIsUk: true,
-  configIsLowercase: true
-}
-
 export default {
   name: 'app',
 
   components: {
-    ntc,
     NewColour,
     List,
     Output,
     ConfigForm
   },
 
-  data: () => {
-    return data
+  props: {
+    // config defaults
+    defaultIsUk: {
+      type: Boolean,
+      default: true
+    },
+    defaultIsLowercase: {
+      type: Boolean,
+      default: true
+    }
+  },
+
+  data: function () {
+    return {
+      newColour: '#194d33',
+      newColourInput: '#',
+      colours: ['#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000'],
+      preSetColours: [],
+      configIsUk: this.defaultIsUk,
+      configIsLowercase: this.defaultIsLowercase
+    }
   },
 
   mounted () {
@@ -95,7 +104,7 @@ export default {
       if (this.isNewColourValid) {
         let colours = this.colours.slice()
         let newColour = this.colourCase(this.newColourInput)
-        let [match, colourHex] = newColour.match(/([0-9a-f]+)$/)
+        let [match, colourHex] = newColour.match(Patterns.colourChars)
 
         // if a 3 letter hex then double the letters
         if (match && colourHex.length === 3) {
@@ -115,7 +124,7 @@ export default {
     },
 
     getHexName (hex) {
-      if (hex !== undefined) {
+      if (hex !== undefined && Patterns.validColour.test(hex)) {
         const name = ntc.name(hex)
         return name[1]
       } else {

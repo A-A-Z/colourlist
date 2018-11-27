@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class='o-new-colour'>
     new colour form
 
     <div
@@ -93,7 +93,6 @@ export default {
 
   methods: {
     updateColourInput (e) {
-      console.log('updateColourInput', e.target.value)
       const newValue = e.target.value
       if (Patterns.inputColour.test(newValue)) {
         this.updateNewColour(newValue)
@@ -102,7 +101,6 @@ export default {
     },
 
     updatePickerValue (value) {
-      console.log('picker:', value)
       this.updateNewColour(value.hex)
     }
   }
