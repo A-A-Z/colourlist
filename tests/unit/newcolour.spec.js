@@ -16,7 +16,7 @@ describe('NewColour.vue', () => {
     expect(wrapper.findAll('.o-new-colour')).toHaveLength(1)
   })
 
-  it('shows newColourInput value', () => {
+  it('shows newColourInput value in input', () => {
     wrapper.setProps({ newColourInput: '#ffffff' })
     expect(wrapper.find('.m-colour-field__input').element.value).toBe('#ffffff')
   })

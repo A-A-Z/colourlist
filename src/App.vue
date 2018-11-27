@@ -1,21 +1,16 @@
 <template>
-  <main id='app'>
-    <header class='o-main-heading'>
+  <main id='app' class='t-main'>
+    <header class='t-main__header o-main-heading'>
       <h1 class='o-main-heading__title'>Colour List</h1>
     </header>
 
-    <ConfigForm
-      :configIsUk.sync='configIsUk'
-      :configIsLowercase.sync='configIsLowercase'
-    />
-
-    <section>
+    <!-- <section>
       <h2>{{newColourInput}}</h2>
       <h3>{{getHexName(newColourInput)}}</h3>
       <hr>
       <h2>{{newColour.hex}}</h2>
       <h3>{{getHexName(newColour.hex)}}</h3>
-    </section>
+    </section> -->
 
     <NewColour
       :newColourInput='newColourInput'
@@ -27,6 +22,13 @@
     <List :colours='colours' />
 
     <Output :colours='colours' />
+
+    <footer class='t-main__footer'>
+      <ConfigForm
+        :configIsUk.sync='configIsUk'
+        :configIsLowercase.sync='configIsLowercase'
+      />
+    </footer>
 
   </main>
 </template>

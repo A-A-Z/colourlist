@@ -1,0 +1,17 @@
+
+.t-main {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__header {
+    width: 100%;
+  }
+
+  &__footer {
+    width: 100%;
+  }
+
+  &__section {
+    width: 30%;
+  }
+}

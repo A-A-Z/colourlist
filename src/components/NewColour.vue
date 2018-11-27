@@ -1,7 +1,5 @@
 <template>
-  <section class='o-new-colour'>
-    new colour form
-
+  <section class='t-main__section o-new-colour'>
     <div
       :class="[
         'm-colour-preview',

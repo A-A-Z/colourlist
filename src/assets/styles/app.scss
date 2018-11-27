@@ -7,10 +7,14 @@
 
 // blocks
 
+// templates
+@import './blocks/t-main';
+
 // organisms
 @import './blocks/o-colour-list';
 @import './blocks/o-config';
 @import './blocks/o-main-heading';
+@import './blocks/o-new-colour';
 
 // molecules
 @import './blocks/m-colour-field';

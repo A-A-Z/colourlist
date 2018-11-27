@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class='t-main__section'>
     <ul class='o-colour-list'>
       <li
         v-for='colour in colours'
