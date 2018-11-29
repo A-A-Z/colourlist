@@ -22,7 +22,7 @@
     font-family: $font-fontawesome;
     font-size: 2.5rem;
     font-weight: 900;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, color 0.3s ease;
 
     &--disabled {
       cursor: default;
@@ -31,6 +31,10 @@
 
     &:before {
       content: '\f138'; // chevron-circle-right
+    }
+
+    &:not(.m-colour-field__add--disabled):hover {
+      color: #F00;
     }
   }
 }

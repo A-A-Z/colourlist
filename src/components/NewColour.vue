@@ -13,7 +13,7 @@
         v-if='isNewColourValid'
         class='m-colour-preview__label'
       >
-        Colour name
+        {{GetColourName(newColourInput)}}
       </div>
       <div v-else class='m-colour-preview__label'>Invalid Colour</div>
     </div>
@@ -52,11 +52,13 @@
 
 <script>
 import { Sketch } from 'vue-color'
-import Patterns from '../helpers/Patterns'
+import GetColourName from '../helpers/GetColourName'
+// import Patterns from '../helpers/Patterns'
 
 const data = {
   pickerColour: '#194d33',
-  preSetColours: []
+  preSetColours: [],
+  GetColourName: GetColourName
 }
 
 export default {
@@ -92,9 +94,9 @@ export default {
   methods: {
     updateColourInput (e) {
       const newValue = e.target.value
-      if (Patterns.inputColour.test(newValue)) {
-        this.updateNewColour(newValue)
-      }
+      // if (Patterns.inputColour.test(newValue)) {
+      //   this.updateNewColour(newValue)
+      // }
       this.updateNewColour(newValue)
     },
 

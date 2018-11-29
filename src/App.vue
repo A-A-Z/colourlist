@@ -4,14 +4,6 @@
       <h1 class='o-main-heading__title'>Colour List</h1>
     </header>
 
-    <!-- <section>
-      <h2>{{newColourInput}}</h2>
-      <h3>{{getHexName(newColourInput)}}</h3>
-      <hr>
-      <h2>{{newColour.hex}}</h2>
-      <h3>{{getHexName(newColour.hex)}}</h3>
-    </section> -->
-
     <NewColour
       :newColourInput='newColourInput'
       :isNewColourValid='isNewColourValid'
@@ -34,7 +26,6 @@
 </template>
 
 <script>
-import ntc from './assets/scripts/name-that-color'
 import NewColour from './components/NewColour.vue'
 import List from './components/List.vue'
 import Output from './components/Output.vue'
@@ -74,21 +65,13 @@ export default {
     }
   },
 
-  mounted () {
-    ntc.init()
-  },
-
   methods: {
     colourCase (string) {
       return this.configIsLowercase ? string.toLowerCase() : string.toUpperCase()
     },
 
-    updateValue (colourVal) {
-      // TODO Update this
-      console.log('update', colourVal.hex, ntc.name(colourVal.hex))
-    },
-
     updateNewColour (newValue) {
+      console.log('updateNewColour', newValue)
       if (Patterns.inputColour.test(newValue)) {
         // add # suffix if missing
         this.newColourInput = (/^#/.test(newValue)) ? this.colourCase(newValue) : `#${this.colourCase(newValue)}`
@@ -122,15 +105,6 @@ export default {
           this.colours = colours
         }
         this.newColourInput = ''
-      }
-    },
-
-    getHexName (hex) {
-      if (hex !== undefined && Patterns.validColour.test(hex)) {
-        const name = ntc.name(hex)
-        return name[1]
-      } else {
-        return '---'
       }
     }
   },
