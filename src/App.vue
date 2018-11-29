@@ -13,7 +13,11 @@
 
     <List :colours='colours' />
 
-    <Output :colours='colours' />
+    <Output
+      :colours='colours'
+      :colourTxt='colourTxt'
+      :isLowercase='configIsLowercase'
+    />
 
     <footer class='t-main__footer'>
       <ConfigForm
