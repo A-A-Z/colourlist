@@ -41,7 +41,7 @@ export default {
       const colourCase = (string) => this.isLowercase ? string.toLowerCase() : string.toUpperCase()
 
       // formats the colour name for the SCSS var
-      const formatColourTxt = (colour) => GetColourName(colour).replace(' ', '-').toLowerCase();
+      const formatColourTxt = (colour) => GetColourName(colour).replace(' ', '-').toLowerCase()
 
       // format the line of SCSS code
       const scssLine = (colour) => `$${this.colourTxt}-${formatColourTxt(colour)}: ${colourCase(colour)};`

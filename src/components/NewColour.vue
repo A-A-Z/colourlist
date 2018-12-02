@@ -44,6 +44,7 @@
       v-model='pickerColour'
       @input='updatePickerValue'
       :disableAlpha='true'
+      :disableFields='true'
       :presetColors='preSetColours'
     />
 
@@ -56,7 +57,7 @@ import GetColourName from '../helpers/GetColourName'
 // import Patterns from '../helpers/Patterns'
 
 const data = {
-  pickerColour: '#194d33',
+  pickerColour: '#ffffff',
   preSetColours: [],
   GetColourName: GetColourName
 }
@@ -93,11 +94,7 @@ export default {
 
   methods: {
     updateColourInput (e) {
-      const newValue = e.target.value
-      // if (Patterns.inputColour.test(newValue)) {
-      //   this.updateNewColour(newValue)
-      // }
-      this.updateNewColour(newValue)
+      this.updateNewColour(e.target.value)
     },
 
     updatePickerValue (value) {
