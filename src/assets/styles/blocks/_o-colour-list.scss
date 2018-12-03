@@ -1,6 +1,7 @@
 
 .o-colour-list {
-  $item-size: 120px;
+  $item-size: 110px;
+  $item-size-active: 10px;
 
   display: flex;
   flex-wrap: wrap;
@@ -11,33 +12,40 @@
   &__item {
     align-items: center;
     border-radius: 5px;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     height: $item-size;
-    margin: 8px;
+    margin: $item-size-active;
     overflow: hidden;
+    transition: all 0.2s ease-in-out;
     width: $item-size;
-  }
 
-  &__label,
-  &__hex {
-    background-color: rgba(0, 0, 0, 0.2);
-    color: $colour-white;
-    text-align: center;
-    width: 100%;
+    &--active {
+      box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.4);
+      height: $item-size + $item-size-active;
+      width: $item-size + $item-size-active;
+      margin: ($item-size-active / 2);
+
+      .o-colour-list__label {
+        font-size: calculateRem(12px);
+        padding: 5px 10px;
+        margin-bottom: 14px;
+      }
+    }
   }
 
   &__label {
-    font-size: calculateRem(14px);
-    font-weight: 600;
-    padding: 4px 0 0 0;
-  }
-
-  &__hex {
-    font-size: calculateRem(12px);
-    font-weight: 300;
-    padding: 0 0 4px 0;
+    background-color: $colour-white;
+    border-radius: 2px;
+    color: $colour-text;
+    font-size: calculateRem(10px);
+    margin-bottom: 15px;
+    max-width: 70%;
+    padding: 3px 6px;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
   }
 }

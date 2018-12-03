@@ -11,7 +11,11 @@
       :saveColour='saveColour'
     />
 
-    <List :colours='colours' />
+    <List
+      :colours='colours'
+      :activeColour='activeColour'
+      :setActiveColour='setActiveColour'
+    />
 
     <Output
       :colours='colours'
@@ -62,8 +66,8 @@ export default {
     return {
       newColour: '#194d33',
       newColourInput: '#',
-      colours: ['#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000'],
-      preSetColours: [],
+      colours: ['#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000', '#7c2626', '#265c7c', '#e9c524'],
+      activeColour: null,
       configIsUk: this.defaultIsUk,
       configIsLowercase: this.defaultIsLowercase
     }
@@ -105,11 +109,22 @@ export default {
         newColour = '#' + colourHex
 
         if (!colours.includes(newColour)) {
-          colours.push('#' + colourHex)
+          if (this.activeColour === null) { // no active, so new colour
+            colours.push('#' + colourHex)
+          } else { // active, so update current
+            const index = colours.indexOf(this.activeColour)
+            colours[index] = '#' + colourHex
+            this.activeColour = null
+          }
           this.colours = colours
         }
         this.newColourInput = ''
       }
+    },
+
+    setActiveColour (colour) {
+      this.activeColour = colour
+      this.newColourInput = colour
     }
   },
 

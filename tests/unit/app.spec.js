@@ -26,22 +26,6 @@ describe('App.vue', () => {
     expect(wrapper.vm.colourCase('#AaBbCc')).toEqual('#AABBCC')
   })
 
-  // it('Method getHexName "#ffffff" returns "White"', () => {
-  //   expect(wrapper.vm.getHexName('#ffffff')).toEqual('White')
-  // })
-  //
-  // it('Method getHexName "#F00" returns "Red"', () => {
-  //   expect(wrapper.vm.getHexName('#F00')).toEqual('Red')
-  // })
-  //
-  // it('Method getHexName undefined returns "---"', () => {
-  //   expect(wrapper.vm.getHexName(undefined)).toEqual('---')
-  // })
-  //
-  // it('Method getHexName "#ff" returns "---"', () => {
-  //   expect(wrapper.vm.getHexName('#ff')).toEqual('---')
-  // })
-
   it('Method saveColour to save new valid colour', () => {
     wrapper.setData({ colours: [], newColourInput: '#ffffff' })
     wrapper.vm.saveColour()

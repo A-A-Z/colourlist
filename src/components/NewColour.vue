@@ -54,13 +54,6 @@
 <script>
 import { Sketch } from 'vue-color'
 import GetColourName from '../helpers/GetColourName'
-// import Patterns from '../helpers/Patterns'
-
-const data = {
-  pickerColour: '#ffffff',
-  preSetColours: [],
-  GetColourName: GetColourName
-}
 
 export default {
   name: 'NewColour',
@@ -88,8 +81,12 @@ export default {
     }
   },
 
-  data: () => {
-    return data
+  data: function () {
+    return {
+      pickerColour: this.newColourInput,
+      preSetColours: [],
+      GetColourName: GetColourName
+    }
   },
 
   methods: {
@@ -99,6 +96,12 @@ export default {
 
     updatePickerValue (value) {
       this.updateNewColour(value.hex)
+    }
+  },
+
+  watch: {
+    newColourInput (newVal) {
+      this.pickerColour = newVal
     }
   }
 }

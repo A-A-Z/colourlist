@@ -29,4 +29,11 @@ describe('List.vue', () => {
     })
     expect(wrapper.findAll('.o-colour-list__item')).toHaveLength(0)
   })
+
+  it('renders colour label', () => {
+    wrapper.setProps({
+      colours: ['#ff0000']
+    })
+    expect(wrapper.find('.o-colour-list__label').text()).toBe('Red')
+  })
 })
