@@ -1,6 +1,7 @@
 
 .o-colour-list {
   $item-size: 110px;
+  $item-size-hover: 2px;
   $item-size-active: 10px;
 
   display: flex;
@@ -19,12 +20,14 @@
     justify-content: flex-end;
     height: $item-size;
     margin: $item-size-active;
+    outline: 0;
     overflow: hidden;
+    position: relative;
     transition: all 0.2s ease-in-out;
     width: $item-size;
 
     &--active {
-      box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.4);
+      box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.3);
       height: $item-size + $item-size-active;
       width: $item-size + $item-size-active;
       margin: ($item-size-active / 2);
@@ -33,6 +36,20 @@
         font-size: calculateRem(12px);
         padding: 5px 10px;
         margin-bottom: 14px;
+      }
+    }
+
+    &:not(.o-colour-list__item--active) {
+      &:hover,
+      &:focus  {
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+        height: $item-size + $item-size-hover;
+        width: $item-size + $item-size-hover;
+        margin: ($item-size-active - ($item-size-hover / 2));
+
+        .o-colour-list__label {
+          font-size: calculateRem(11px);
+        }
       }
     }
   }
@@ -47,5 +64,35 @@
     padding: 3px 6px;
     transition: all 0.2s ease-in-out;
     text-align: center;
+  }
+
+  &__delete {
+    $size: 20px;
+
+    align-items: center;
+    background-color: $colour-white;
+    border-radius: 3px;
+    color: $colour-text;
+    display: flex;
+    font-size: 13px;
+    height: $size;
+    justify-content: center;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: $size;
+    z-index: 2;
+
+    .fas {
+      transition: all 0.1s ease-in-out;
+    }
+
+    &:hover {
+      color: $colour-warning;
+
+      .fas {
+        transform: rotate(40deg);
+      }
+    }
   }
 }

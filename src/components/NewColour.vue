@@ -1,5 +1,6 @@
 <template>
   <section class='t-main__section o-new-colour'>
+
     <div
       :class="[
         'm-colour-preview',
@@ -10,12 +11,19 @@
       }"
     >
       <div
+        v-if='activeColour !== null && activeColour !== newColourInput'
+        class='m-colour-preview__active-colour'
+        :style="{
+          borderTopColor: activeColour
+        }"
+      ></div>
+      <div
         v-if='isNewColourValid'
         class='m-colour-preview__label'
       >
         {{GetColourName(newColourInput)}}
       </div>
-      <div v-else class='m-colour-preview__label'>Invalid Colour</div>
+      <div v-else class='m-colour-preview__label'>none</div>
     </div>
 
     <div class='m-colour-field'>
@@ -70,6 +78,10 @@ export default {
     isNewColourValid: {
       type: Boolean,
       default: false
+    },
+    activeColour: {
+      type: String,
+      default: null
     },
     updateNewColour: {
       type: Function,

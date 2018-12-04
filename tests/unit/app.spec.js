@@ -56,6 +56,18 @@ describe('App.vue', () => {
     expect(wrapper.vm.newColourInput).toEqual('')
   })
 
+  it('Method deleteSavedColour removes colour from list', () => {
+    wrapper.setData({ colours: ['#ff0000', '#00ff00', '#0000ff'] })
+    wrapper.vm.deleteSavedColour('#00ff00')
+    expect(wrapper.vm.colours).toEqual(['#ff0000', '#0000ff'])
+  })
+
+  it('Method deleteSavedColour does nothing if unknow colour', () => {
+    wrapper.setData({ colours: ['#ff0000', '#00ff00', '#0000ff'] })
+    wrapper.vm.deleteSavedColour('#ffffff')
+    expect(wrapper.vm.colours).toEqual(['#ff0000', '#00ff00', '#0000ff'])
+  })
+
   it('Computed colourTxt in Queen\'s english', () => {
     wrapper.setData({ configIsUk: true })
     expect(wrapper.vm.colourTxt).toEqual('colour')

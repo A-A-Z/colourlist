@@ -8,6 +8,8 @@
   display: flex;
   height: $size;
   justify-content: center;
+  overflow: hidden;
+  position: relative;
   transition: background-color 0.5s ease;
   width: $size;
 
@@ -31,5 +33,19 @@
       font-style: italic;
       font-weight: 400;
     }
+  }
+
+  &__active-colour {
+    $size: 80px;
+
+    border-color: transparent;
+    border-style: solid;
+    border-width: $size $size 0 0;
+    height: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 0;
+    // borderTopColor set by template
   }
 }

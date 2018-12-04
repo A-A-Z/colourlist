@@ -35,10 +35,10 @@ describe('Output.vue', () => {
 
   it('correctly formats multi-word colour names', () => {
     wrapper.setProps({
-      colours: [ '#38b878' ]
+      colours: [ '#7c2626' ]
     })
     expect(wrapper.find('.o-output__textarea').element.value)
-      .toBe('$colour-ocean-green: #38b878;')
+      .toBe('$colour-crown-of-thorns: #7c2626;')
   })
 
   it('colour HEX in uppercase config', () => {

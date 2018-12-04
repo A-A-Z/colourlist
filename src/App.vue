@@ -7,6 +7,7 @@
     <NewColour
       :newColourInput='newColourInput'
       :isNewColourValid='isNewColourValid'
+      :activeColour='activeColour'
       :updateNewColour='updateNewColour'
       :saveColour='saveColour'
     />
@@ -15,6 +16,7 @@
       :colours='colours'
       :activeColour='activeColour'
       :setActiveColour='setActiveColour'
+      :deleteSavedColour='deleteSavedColour'
     />
 
     <Output
@@ -123,8 +125,25 @@ export default {
     },
 
     setActiveColour (colour) {
-      this.activeColour = colour
-      this.newColourInput = colour
+      if (this.activeColour === colour) {
+        this.activeColour = null
+        this.newColourInput = '#'
+      } else {
+        this.activeColour = colour
+        this.newColourInput = colour
+      }
+      console.log('click');
+    },
+
+    deleteSavedColour (colour) {
+      // filter out the passed colour
+      this.colours = this.colours.filter(entry => entry !== colour)
+
+      // if colour is also the active colour then clear that
+      if (this.activeColour === colour) {
+        this.activeColour = null
+        this.newColourInput = '#'
+      }
     }
   },
 
