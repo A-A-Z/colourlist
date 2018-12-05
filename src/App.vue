@@ -132,7 +132,6 @@ export default {
         this.activeColour = colour
         this.newColourInput = colour
       }
-      console.log('click');
     },
 
     deleteSavedColour (colour) {

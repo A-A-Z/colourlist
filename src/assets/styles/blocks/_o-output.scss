@@ -2,7 +2,11 @@
 .o-output {
 
   &__textarea {
+    border: 1px solid $colour-mercury;
+    border-radius: 3px;
     height: 500px;
+    line-height: 1.5;
+    padding: 1rem;
     resize: none;
     width: 100%;
   }

@@ -10,6 +10,8 @@
         :style='{ backgroundColor: colour }'
         :key='colour'
         @click='setActiveColour(colour)'
+        @keyup.enter="setActiveColour(colour)"
+        @keyup.space="setActiveColour(colour)"
         role='button'
         tabindex='0'
         :aria-pressed='isActive(colour)'

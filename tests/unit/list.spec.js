@@ -36,4 +36,81 @@ describe('List.vue', () => {
     })
     expect(wrapper.find('.o-colour-list__label').text()).toBe('Red')
   })
+
+  it('clicking on item makes colour active', () => {
+    wrapper.setProps({
+      colours: [ '#ffffff' ],
+      setActiveColour: jest.fn()
+    })
+    wrapper
+      .find('.o-colour-list__item')
+      .trigger('click')
+
+    expect(wrapper.vm.setActiveColour).toHaveBeenCalledWith('#ffffff')
+  })
+
+  it('hitting enter on item makes colour active', () => {
+    wrapper.setProps({
+      colours: [ '#ffffff' ],
+      setActiveColour: jest.fn()
+    })
+    wrapper
+      .find('.o-colour-list__item')
+      .trigger('keyup.enter')
+
+    expect(wrapper.vm.setActiveColour).toHaveBeenCalledWith('#ffffff')
+  })
+
+  it('hitting space on item makes colour active', () => {
+    wrapper.setProps({
+      colours: [ '#ffffff' ],
+      setActiveColour: jest.fn()
+    })
+    wrapper
+      .find('.o-colour-list__item')
+      .trigger('keyup.space')
+
+    expect(wrapper.vm.setActiveColour).toHaveBeenCalledWith('#ffffff')
+  })
+
+  it('having an active colour renders that colour as active', () => {
+    wrapper.setProps({
+      colours: [
+        '#111111',
+        '#222222',
+        '#333333'
+      ],
+      activeColour: '#222222'
+    })
+    expect(wrapper.findAll('.o-colour-list__item--active')).toHaveLength(1)
+  })
+
+  it('having an active colour shows the delete icon for that colour', () => {
+    wrapper.setProps({
+      colours: [
+        '#111111',
+        '#222222',
+        '#333333'
+      ],
+      activeColour: '#222222'
+    })
+    expect(wrapper.findAll('.o-colour-list__item--active .o-colour-list__delete')).toHaveLength(1)
+  })
+
+  it('clicking on delete icon calls deleteSavedColour function for that colour', () => {
+    wrapper.setProps({
+      colours: [
+        '#111111',
+        '#222222',
+        '#333333'
+      ],
+      activeColour: '#222222',
+      deleteSavedColour: jest.fn()
+    })
+    wrapper
+      .find('.o-colour-list__delete')
+      .trigger('click')
+
+    expect(wrapper.vm.deleteSavedColour).toHaveBeenCalledWith('#222222')
+  })
 })

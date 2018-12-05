@@ -2,7 +2,7 @@
 .m-colour-field {
 
   &__input {
-    border: 1px solid #ddd; // TODO replace this
+    border: 1px solid $colour-mercury;
     border-width: 0 0 1px 0;
     font-family: $font-montserrat;
     font-size: 3.5rem;
