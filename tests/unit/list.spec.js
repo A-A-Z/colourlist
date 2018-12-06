@@ -113,4 +113,31 @@ describe('List.vue', () => {
 
     expect(wrapper.vm.deleteSavedColour).toHaveBeenCalledWith('#222222')
   })
+
+  it('computed coloursSorted sorts colours by hue', () => {
+    wrapper.setProps({
+      colours: [
+        '#9999ff',
+        '#ff0000',
+        '#00ff00',
+        '#5555ff',
+        '#ff5555',
+        '#0000ff',
+        '#99ff99',
+        '#ff9999',
+        '#55ff55'
+      ]
+    })
+    expect(wrapper.vm.coloursSorted).toEqual([
+      '#ff9999',
+      '#ff5555',
+      '#ff0000',
+      '#99ff99',
+      '#55ff55',
+      '#00ff00',
+      '#9999ff',
+      '#5555ff',
+      '#0000ff'
+    ])
+  })
 })

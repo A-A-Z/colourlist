@@ -68,7 +68,7 @@ export default {
     return {
       newColour: '#194d33',
       newColourInput: '#',
-      colours: ['#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000', '#7c2626', '#265c7c', '#e9c524'],
+      colours: ['#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000', '#7c2626', '#265c7c', '#e9c524'], // TODO: make config?
       activeColour: null,
       configIsUk: this.defaultIsUk,
       configIsLowercase: this.defaultIsLowercase
