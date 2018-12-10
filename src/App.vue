@@ -14,6 +14,7 @@
 
     <List
       :colours='colours'
+      :colourNames='colourNames'
       :activeColour='activeColour'
       :setActiveColour='setActiveColour'
       :deleteSavedColour='deleteSavedColour'
@@ -21,6 +22,7 @@
 
     <Output
       :colours='colours'
+      :colourNames='colourNames'
       :colourTxt='colourTxt'
       :isLowercase='configIsLowercase'
     />
@@ -40,6 +42,7 @@ import NewColour from './components/NewColour.vue'
 import List from './components/List.vue'
 import Output from './components/Output.vue'
 import ConfigForm from './components/ConfigForm.vue'
+import GetColourName from './helpers/GetColourName'
 import Patterns from './helpers/Patterns'
 
 export default {
@@ -68,7 +71,11 @@ export default {
     return {
       newColour: '#194d33',
       newColourInput: '#',
-      colours: ['#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000', '#7c2626', '#265c7c', '#e9c524'], // TODO: make config?
+      colours: [
+        '#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000', '#7c2626', '#265c7c', '#e9c524',
+        '#123120', '#123124',
+        '#321321', '#321322', '#321323'
+      ], // TODO: make config?
       activeColour: null,
       configIsUk: this.defaultIsUk,
       configIsLowercase: this.defaultIsLowercase
@@ -153,6 +160,36 @@ export default {
 
     isNewColourValid () {
       return Patterns.validColour.test(this.newColourInput)
+    },
+
+    colourNames () {
+      let names = {}
+      let nameCount = {}
+      let firsts = {}
+
+      // create names list from this.colours
+      // (lets try to do this in one loop)
+      for (const colour of this.colours) {
+        let name = GetColourName(colour)
+        nameCount[name] = (nameCount[name] + 1) || 1
+
+        // checking for duplicates
+        switch (nameCount[name]) {
+          case 1: // new colour name
+            names[colour] = name
+            firsts[name] = colour
+            break
+
+          case 2: // name used once before
+            names[firsts[name]] = `${name} 1` // rename the first
+            /* falls through */
+
+          default: // name used more then once
+            names[colour] = `${name} ${nameCount[name]}`
+        }
+      }
+
+      return names
     }
   }
 }

@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import GetColourName from '../helpers/GetColourName'
-
 export default {
   name: 'Output',
 
@@ -18,6 +16,10 @@ export default {
     colours: {
       type: Array,
       default: () => []
+    },
+    colourNames: {
+      type: Object,
+      default: () => ({})
     },
     colourTxt: {
       type: String,
@@ -41,7 +43,11 @@ export default {
       const colourCase = (string) => this.isLowercase ? string.toLowerCase() : string.toUpperCase()
 
       // formats the colour name for the SCSS var
-      const formatColourTxt = (colour) => GetColourName(colour).replace(/ /g, '-').toLowerCase()
+      const formatColourTxt = (colour) =>
+        (this.colourNames[colour] || 'unknown')
+          .replace(/ /g, '-')
+          .replace(/-(\d+)$/, '$1')
+          .toLowerCase()
 
       // format the line of SCSS code
       const scssLine = (colour) => `$${this.colourTxt}-${formatColourTxt(colour)}: ${colourCase(colour)};`

@@ -23,14 +23,13 @@
         >
           <i class="fas fa-trash-alt"></i>
         </div>
-        <div class='o-colour-list__label'>{{GetColourName(colour)}}</div>
+        <div class='o-colour-list__label'>{{colourLabel(colour)}}</div>
       </li>
     </ul>
   </section>
 </template>
 
 <script>
-import GetColourName from '../helpers/GetColourName'
 
 export default {
   name: 'List',
@@ -40,32 +39,31 @@ export default {
       type: Array,
       default: () => []
     },
-
+    colourNames: {
+      type: Object,
+      default: () => ({})
+    },
     activeColour: {
       type: String,
       default: null
     },
-
     setActiveColour: {
       type: Function,
       default: () => false
     },
-
     deleteSavedColour: {
       type: Function,
       default: () => false
     }
   },
 
-  data: function () {
-    return {
-      GetColourName: GetColourName
-    }
-  },
-
   methods: {
     isActive (colour) {
       return this.activeColour === colour
+    },
+
+    colourLabel (colour) {
+      return this.colourNames[colour] || 'unknown'
     }
   },
 
