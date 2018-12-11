@@ -1,7 +1,9 @@
 <template>
   <main id='app' class='t-main'>
     <header class='t-main__header o-main-heading'>
-      <h1 class='o-main-heading__title'>Colour List</h1>
+      <h1 class='o-main-heading__title'>
+        <span>Colour</span><span>List</span>
+      </h1>
     </header>
 
     <NewColour
@@ -44,6 +46,14 @@ import Output from './components/Output.vue'
 import ConfigForm from './components/ConfigForm.vue'
 import GetColourName from './helpers/GetColourName'
 import Patterns from './helpers/Patterns'
+
+/* TODO list
+--------------
+* Save state
+* Mobile sopport
+* Assign colours
+* language packs
+*/
 
 export default {
   name: 'app',

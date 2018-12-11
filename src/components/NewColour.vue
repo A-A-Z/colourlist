@@ -45,16 +45,34 @@
         type='button'
         @click='saveColour'
         :disabled='!isNewColourValid'
+        aria-label='Add colour to list'
       />
     </div>
 
-    <sketch-picker
-      v-model='pickerColour'
-      @input='updatePickerValue'
-      :disableAlpha='true'
-      :disableFields='true'
-      :presetColors='preSetColours'
-    />
+    <div
+      :class="[
+        'm-colour-picker',
+        isPickerOpen ? 'm-colour-picker--open' : ''
+      ]"
+    >
+      <button
+        class='m-colour-picker__toggle'
+        @click='togglePicker'
+        :aria-pressed='togglePicker'
+        aria-label='Toggle colour picker'
+      >
+        <i class="fas fa-palette"></i>
+      </button>
+      <div class='m-colour-picker__picker'>
+        <sketch-picker
+          v-model='pickerColour'
+          @input='updatePickerValue'
+          :disableAlpha='true'
+          :disableFields='true'
+          :presetColors='preSetColours'
+        />
+      </div>
+    </div>
 
   </section>
 </template>
@@ -97,7 +115,8 @@ export default {
     return {
       pickerColour: this.newColourInput,
       preSetColours: [],
-      GetColourName: GetColourName
+      GetColourName: GetColourName,
+      isPickerOpen: false
     }
   },
 
@@ -108,6 +127,10 @@ export default {
 
     updatePickerValue (value) {
       this.updateNewColour(value.hex)
+    },
+
+    togglePicker () {
+      this.isPickerOpen = !this.isPickerOpen
     }
   },
 

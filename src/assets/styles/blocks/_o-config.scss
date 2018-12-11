@@ -1,8 +1,10 @@
 
 .o-config {
+  display: flex;
+
   &__field {
     font-size: 0.7rem;
-    margin-bottom: 5px;
+    margin-right: 1.2rem;
   }
 
   &__label {
