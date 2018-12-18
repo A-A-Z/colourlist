@@ -98,7 +98,6 @@ export default {
     },
 
     updateNewColour (newValue) {
-      console.log('updateNewColour', newValue)
       if (Patterns.inputColour.test(newValue)) {
         // add # suffix if missing
         this.newColourInput = (/^#/.test(newValue)) ? this.colourCase(newValue) : `#${this.colourCase(newValue)}`
