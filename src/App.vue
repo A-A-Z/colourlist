@@ -29,6 +29,20 @@
       :isLowercase='configIsLowercase'
     />
 
+    <!--
+    <ul>
+      <li v-for="(project, idx) in projects" :key="idx">
+        name: {{project.name}}
+        <ul>
+          <li v-for="(colour, cid) in project.list" :key="cid">
+            {{colour}}
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <button @click='testAdd'>Add</button>
+  -->
+
     <footer class='t-main__footer'>
       <ConfigForm
         :configIsUk.sync='configIsUk'
@@ -40,6 +54,8 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueFirestore from 'vue-firestore'
 import NewColour from './components/NewColour.vue'
 import List from './components/List.vue'
 import Output from './components/Output.vue'
@@ -47,11 +63,19 @@ import ConfigForm from './components/ConfigForm.vue'
 import GetColourName from './helpers/GetColourName'
 import Patterns from './helpers/Patterns'
 
+import { db, ColoursCollection } from './api/firebase.js'
+
+Vue.use(VueFirestore)
+
+console.log('db', db)
+console.log('ColoursCollection', ColoursCollection)
+
 /* TODO list
 --------------
 * Save state
 * Mobile sopport
 * Assign colours
+* Import from text
 * language packs
 */
 
@@ -88,11 +112,29 @@ export default {
       ], // TODO: make config?
       activeColour: null,
       configIsUk: this.defaultIsUk,
-      configIsLowercase: this.defaultIsLowercase
+      configIsLowercase: this.defaultIsLowercase,
+      projects: null,
+      project: null
+    }
+  },
+
+  firestore () {
+    return {
+      projects: ColoursCollection,
+      project: ColoursCollection.where('name', '==', 'test colour 1')
     }
   },
 
   methods: {
+    testAdd () {
+      const newItem = {
+        name: 'test colour',
+        list: [ 'test1', 'test2' ]
+      }
+      ColoursCollection.add(newItem)
+        .then(() => { console.log('added') })
+    },
+
     colourCase (string) {
       return this.configIsLowercase ? string.toLowerCase() : string.toUpperCase()
     },

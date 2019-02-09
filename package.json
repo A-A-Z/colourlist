@@ -9,8 +9,10 @@
     "test:unit": "vue-cli-service test:unit --verbose"
   },
   "dependencies": {
+    "firebase": "^5.8.1",
     "vue": "^2.5.17",
-    "vue-color": "^2.6.0"
+    "vue-color": "^2.6.0",
+    "vue-firestore": "^0.3.16"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.3",
