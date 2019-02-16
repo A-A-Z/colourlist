@@ -15,9 +15,9 @@
     "vue-firestore": "^0.3.16"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.3",
+    "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-plugin-eslint": "^3.0.3",
-    "@vue/cli-plugin-unit-jest": "^3.0.3",
+    "@vue/cli-plugin-unit-jest": "^3.4.0",
     "@vue/cli-service": "^3.0.3",
     "@vue/eslint-config-standard": "^3.0.3",
     "@vue/test-utils": "^1.0.0-beta.20",
