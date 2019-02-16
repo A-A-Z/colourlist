@@ -7,7 +7,21 @@
     </header>
 
     <div>
-      <button @click='saveProject'>Save</button>
+      <div>{{saveStateTxt}}</div>
+      <div>{{(projectId || 'New')}}</div>
+      <div>
+        <input type='text' v-model='tempProjectId' />
+        <button @click='onLoadClick'>Load</button>
+      </div>
+      <div>
+        <input
+          type='text'
+          :value="(project) ? project.name : ''"
+          placeholder='Untitled Project'
+          @input='changeProjectName'
+        />
+      </div>
+      <div><button @click='saveProject'>Save</button></div>
     </div>
 
     <NewColour
@@ -67,12 +81,12 @@ import ConfigForm from './components/ConfigForm.vue'
 import GetColourName from './helpers/GetColourName'
 import Patterns from './helpers/Patterns'
 
-import { db, ColoursCollection } from './api/firebase.js'
+import { db, ProjectCollection } from './api/firebase.js'
 
 Vue.use(VueFirestore)
 
 console.log('db', db)
-console.log('ColoursCollection', ColoursCollection)
+console.log('ProjectCollection', ProjectCollection)
 
 /* TODO list
 --------------
@@ -119,15 +133,18 @@ export default {
       configIsLowercase: this.defaultIsLowercase,
       saveState: 0,
       projectId: null,
-      projects: null,
-      project: null
+      project: {
+        name: '',
+        list: []
+      },
+      projectKey: null,
+      tempProjectId: ''
     }
   },
 
   firestore () {
     return {
-      projects: ColoursCollection,
-      project: ColoursCollection.where('name', '==', 'test colour 1')
+      // project: ProjectCollection.where('name', '==', 'test colour 1')
     }
   },
 
@@ -137,7 +154,7 @@ export default {
     //     name: 'test colour',
     //     list: [ 'test1', 'test2' ]
     //   }
-    //   ColoursCollection.add(newItem)
+    //   ProjectCollection.add(newItem)
     //     .then(() => { console.log('added') })
     // },
 
@@ -209,36 +226,66 @@ export default {
       }
     },
 
-    saveProject: async function () {
+    changeProjectName (e) {
+      const project = this.project
+      project.name = e.target.value // TODO: validate
+      this.project = project
+    },
 
-      if (this.projectId === null) {
-        console.log('save new')
+    onLoadClick () { // TODO Not the final method
+      this.loadProject(this.tempProjectId)
+    },
+
+    loadProject (projectId) {
+      this.saveState = 1 // loading
+      this.$binding('data', ProjectCollection.where('id', '==', this.tempProjectId))
+        .then((data) => {
+          if (data.length === 1) {
+            this.saveState = 2 // ready
+            this.project = data[0]
+            this.projectKey = data[0]['.key']
+          } else {
+            this.saveState = 6 // error
+            console.error('Not found')
+          }
+        }).catch(err => {
+          this.saveState = 6 // error
+          console.error(err)
+        })
+    },
+
+    saveProject: async function () {
+      this.saveState = 4 // saving
+      if (this.projectKey === null) { // new projct, add new
         const newID = await this.getNewProjectId()
         console.log('newID', newID)
-        const newItem = {
-          id: newID,
-          name: 'test colour',
-          list: [ 'test1', 'test2' ]
-        }
-        ColoursCollection.add(newItem)
-          .then(() => {
-            console.log('added')
-            this.projectId = newID
+        // const newItem = {
+        //   id: newID,
+        //   name: 'test colour',
+        //   list: [ 'test1', 'test2' ]
+        // }
+        this.project.id = newID
+        ProjectCollection.add(this.project)
+          .then((data) => {
+            console.log('added', data.id)
+            // his.projectId = newID
+            this.projectKey = data.id
+            this.saveState = 5 // saved
           })
-
-      } else {
-        console.log('update');
+      } else { // update project
+        console.log('update')
       }
     },
 
     getNewProjectId: async function () {
+      // creat a string of random chars of X length
       const randId = length => Math.random().toString(36).substr(2, length)
 
       // set new id
       const newId = randId(5)
 
       return new Promise(resolve => {
-        this.$binding('data', ColoursCollection.where('id', '==', newId))
+        this.$binding('data', ProjectCollection.where('id', '==', newId))
           .then((data) => {
             console.log('data', data.length, data) // TODO: handle match
             resolve(newId)
@@ -287,6 +334,19 @@ export default {
       }
 
       return names
+    },
+
+    saveStateTxt () {
+      const txt = [
+        'mounted',
+        'loading',
+        'ready',
+        'changed',
+        'saving',
+        'saved',
+        'error'
+      ]
+      return txt[this.saveState]
     }
   }
 }
