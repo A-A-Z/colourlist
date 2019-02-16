@@ -6,6 +6,10 @@
       </h1>
     </header>
 
+    <div>
+      <button @click='saveProject'>Save</button>
+    </div>
+
     <NewColour
       :newColourInput='newColourInput'
       :isNewColourValid='isNewColourValid'
@@ -113,6 +117,8 @@ export default {
       activeColour: null,
       configIsUk: this.defaultIsUk,
       configIsLowercase: this.defaultIsLowercase,
+      saveState: 0,
+      projectId: null,
       projects: null,
       project: null
     }
@@ -126,14 +132,14 @@ export default {
   },
 
   methods: {
-    testAdd () {
-      const newItem = {
-        name: 'test colour',
-        list: [ 'test1', 'test2' ]
-      }
-      ColoursCollection.add(newItem)
-        .then(() => { console.log('added') })
-    },
+    // testAdd () {
+    //   const newItem = {
+    //     name: 'test colour',
+    //     list: [ 'test1', 'test2' ]
+    //   }
+    //   ColoursCollection.add(newItem)
+    //     .then(() => { console.log('added') })
+    // },
 
     colourCase (string) {
       return this.configIsLowercase ? string.toLowerCase() : string.toUpperCase()
@@ -201,6 +207,46 @@ export default {
         this.activeColour = null
         this.newColourInput = '#'
       }
+    },
+
+    saveProject: async function () {
+
+      if (this.projectId === null) {
+        console.log('save new')
+        const newID = await this.getNewProjectId()
+        console.log('newID', newID)
+        const newItem = {
+          id: newID,
+          name: 'test colour',
+          list: [ 'test1', 'test2' ]
+        }
+        ColoursCollection.add(newItem)
+          .then(() => {
+            console.log('added')
+            this.projectId = newID
+          })
+
+      } else {
+        console.log('update');
+      }
+    },
+
+    getNewProjectId: async function () {
+      const randId = length => Math.random().toString(36).substr(2, length)
+
+      // set new id
+      const newId = randId(5)
+
+      return new Promise(resolve => {
+        this.$binding('data', ColoursCollection.where('id', '==', newId))
+          .then((data) => {
+            console.log('data', data.length, data) // TODO: handle match
+            resolve(newId)
+          })
+          .catch((...error) => {
+            console.error('Error', error) // TODO: handle error better
+          })
+      })
     }
   },
 
