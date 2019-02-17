@@ -131,7 +131,7 @@ export default {
   // },
 
   created () {
-    const route = this.$route.params;
+    const route = this.$route.params
     // if ID passed via URL then load
     if (route && route.id) { // TODO regex check
       this.loadProject(route.id)
