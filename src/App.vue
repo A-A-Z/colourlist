@@ -8,7 +8,7 @@
 
     <div>
       <div>{{saveStateTxt}}</div>
-      <div>{{(projectId || 'New')}}</div>
+      <div>{{(projectKey || 'New')}}</div>
       <div>
         <input type='text' v-model='tempProjectId' />
         <button @click='onLoadClick'>Load</button>
@@ -47,20 +47,6 @@
       :isLowercase='configIsLowercase'
     />
 
-    <!--
-    <ul>
-      <li v-for="(project, idx) in projects" :key="idx">
-        name: {{project.name}}
-        <ul>
-          <li v-for="(colour, cid) in project.list" :key="cid">
-            {{colour}}
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <button @click='testAdd'>Add</button>
-  -->
-
     <footer class='t-main__footer'>
       <ConfigForm
         :configIsUk.sync='configIsUk'
@@ -80,13 +66,9 @@ import Output from './components/Output.vue'
 import ConfigForm from './components/ConfigForm.vue'
 import GetColourName from './helpers/GetColourName'
 import Patterns from './helpers/Patterns'
-
-import { db, ProjectCollection } from './api/firebase.js'
+import { ProjectCollection } from './api/firebase.js'
 
 Vue.use(VueFirestore)
-
-console.log('db', db)
-console.log('ProjectCollection', ProjectCollection)
 
 /* TODO list
 --------------
@@ -123,16 +105,16 @@ export default {
     return {
       newColour: '#194d33',
       newColourInput: '#',
-      colours: [
-        '#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000', '#7c2626', '#265c7c', '#e9c524',
-        '#123120', '#123124',
-        '#321321', '#321322', '#321323'
-      ], // TODO: make config?
+      // colours: [
+      //   '#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000', '#7c2626', '#265c7c', '#e9c524',
+      //   '#123120', '#123124',
+      //   '#321321', '#321322', '#321323'
+      // ],
+      colours: [],
       activeColour: null,
       configIsUk: this.defaultIsUk,
       configIsLowercase: this.defaultIsLowercase,
       saveState: 0,
-      projectId: null,
       project: {
         name: '',
         list: []
@@ -142,11 +124,11 @@ export default {
     }
   },
 
-  firestore () {
-    return {
-      // project: ProjectCollection.where('name', '==', 'test colour 1')
-    }
-  },
+  // firestore () {
+  //   return {
+  //     // project: ProjectCollection.where('name', '==', 'test colour 1')
+  //   }
+  // },
 
   methods: {
     // testAdd () {
@@ -243,6 +225,7 @@ export default {
           if (data.length === 1) {
             this.saveState = 2 // ready
             this.project = data[0]
+            this.colours = (this.project.list || [])
             this.projectKey = data[0]['.key']
           } else {
             this.saveState = 6 // error
@@ -256,6 +239,7 @@ export default {
 
     saveProject: async function () {
       this.saveState = 4 // saving
+      this.project.list = this.colours
       if (this.projectKey === null) { // new projct, add new
         const newID = await this.getNewProjectId()
         console.log('newID', newID)
@@ -274,6 +258,10 @@ export default {
           })
       } else { // update project
         console.log('update')
+        ProjectCollection.doc(this.projectKey).update(this.project)
+          .then((data) => {
+            this.saveState = 5 // saved
+          })
       }
     },
 
