@@ -7,7 +7,21 @@
     </header>
 
     <div>
-      <button @click='saveProject'>Save</button>
+      <div>{{saveStateTxt}}</div>
+      <div>{{(projectKey || 'New')}}</div>
+      <div>
+        <input type='text' v-model='tempProjectId' />
+        <button @click='onLoadClick'>Load</button>
+      </div>
+      <div>
+        <input
+          type='text'
+          :value="(project) ? project.name : ''"
+          placeholder='Untitled Project'
+          @input='changeProjectName'
+        />
+      </div>
+      <div><button @click='saveProject'>Save</button></div>
     </div>
 
     <NewColour
@@ -33,20 +47,6 @@
       :isLowercase='configIsLowercase'
     />
 
-    <!--
-    <ul>
-      <li v-for="(project, idx) in projects" :key="idx">
-        name: {{project.name}}
-        <ul>
-          <li v-for="(colour, cid) in project.list" :key="cid">
-            {{colour}}
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <button @click='testAdd'>Add</button>
-  -->
-
     <footer class='t-main__footer'>
       <ConfigForm
         :configIsUk.sync='configIsUk'
@@ -66,13 +66,9 @@ import Output from './components/Output.vue'
 import ConfigForm from './components/ConfigForm.vue'
 import GetColourName from './helpers/GetColourName'
 import Patterns from './helpers/Patterns'
-
-import { db, ColoursCollection } from './api/firebase.js'
+import { ProjectCollection } from './api/firebase.js'
 
 Vue.use(VueFirestore)
-
-console.log('db', db)
-console.log('ColoursCollection', ColoursCollection)
 
 /* TODO list
 --------------
@@ -109,38 +105,42 @@ export default {
     return {
       newColour: '#194d33',
       newColourInput: '#',
-      colours: [
-        '#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000', '#7c2626', '#265c7c', '#e9c524',
-        '#123120', '#123124',
-        '#321321', '#321322', '#321323'
-      ], // TODO: make config?
+      // colours: [
+      //   '#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000', '#7c2626', '#265c7c', '#e9c524',
+      //   '#123120', '#123124',
+      //   '#321321', '#321322', '#321323'
+      // ],
+      colours: [],
       activeColour: null,
       configIsUk: this.defaultIsUk,
       configIsLowercase: this.defaultIsLowercase,
       saveState: 0,
-      projectId: null,
-      projects: null,
-      project: null
+      project: {
+        name: '',
+        list: []
+      },
+      projectKey: null,
+      tempProjectId: ''
     }
   },
 
-  firestore () {
-    return {
-      projects: ColoursCollection,
-      project: ColoursCollection.where('name', '==', 'test colour 1')
+  // firestore () {
+  //   return {
+  //     // project: ProjectCollection.where('name', '==', 'test colour 1')
+  //   }
+  // },
+
+  created () {
+    const route = this.$route.params;
+    // if ID passed via URL then load
+    if (route && route.id) { // TODO regex check
+      this.loadProject(route.id)
+    } else {
+      this.saveState = 2
     }
   },
 
   methods: {
-    // testAdd () {
-    //   const newItem = {
-    //     name: 'test colour',
-    //     list: [ 'test1', 'test2' ]
-    //   }
-    //   ColoursCollection.add(newItem)
-    //     .then(() => { console.log('added') })
-    // },
-
     colourCase (string) {
       return this.configIsLowercase ? string.toLowerCase() : string.toUpperCase()
     },
@@ -209,36 +209,64 @@ export default {
       }
     },
 
+    changeProjectName (e) {
+      const project = this.project
+      project.name = e.target.value // TODO: validate
+      this.project = project
+    },
+
+    onLoadClick () { // TODO Not the final method
+      this.loadProject(this.tempProjectId)
+    },
+
+    loadProject (projectId) {
+      this.saveState = 1 // loading
+      this.$binding('data', ProjectCollection.where('id', '==', projectId))
+        .then((data) => {
+          if (data.length === 1) {
+            this.saveState = 2 // ready
+            this.project = data[0]
+            this.colours = (this.project.list || [])
+            this.projectKey = data[0]['.key']
+          } else {
+            this.saveState = 6 // error
+            console.error('Not found')
+          }
+        }).catch(err => {
+          this.saveState = 6 // error
+          console.error(err)
+        })
+    },
+
     saveProject: async function () {
-
-      if (this.projectId === null) {
-        console.log('save new')
+      this.saveState = 4 // saving
+      this.project.list = this.colours
+      if (this.projectKey === null) { // new projct, add new
         const newID = await this.getNewProjectId()
-        console.log('newID', newID)
-        const newItem = {
-          id: newID,
-          name: 'test colour',
-          list: [ 'test1', 'test2' ]
-        }
-        ColoursCollection.add(newItem)
-          .then(() => {
-            console.log('added')
-            this.projectId = newID
+        this.project.id = newID
+        ProjectCollection.add(this.project)
+          .then((data) => {
+            this.projectKey = data.id
+            this.saveState = 5 // saved
           })
-
-      } else {
-        console.log('update');
+      } else { // update project
+        delete this.project['.key']
+        ProjectCollection.doc(this.projectKey).update(this.project)
+          .then((data) => {
+            this.saveState = 5 // saved
+          })
       }
     },
 
     getNewProjectId: async function () {
+      // creat a string of random chars of X length
       const randId = length => Math.random().toString(36).substr(2, length)
 
       // set new id
       const newId = randId(5)
 
       return new Promise(resolve => {
-        this.$binding('data', ColoursCollection.where('id', '==', newId))
+        this.$binding('data', ProjectCollection.where('id', '==', newId))
           .then((data) => {
             console.log('data', data.length, data) // TODO: handle match
             resolve(newId)
@@ -287,6 +315,19 @@ export default {
       }
 
       return names
+    },
+
+    saveStateTxt () {
+      const txt = [
+        'mounted',
+        'loading',
+        'ready',
+        'changed',
+        'saving',
+        'saved',
+        'error'
+      ]
+      return txt[this.saveState]
     }
   }
 }

@@ -17,10 +17,9 @@ firebase.initializeApp(config)
 
 const db = firebase.firestore()
 
-const ColoursCollection = db.collection('projects')
-console.log('ColoursCollection', ColoursCollection);
+const ProjectCollection = db.collection('projects')
 
 export {
   db,
-  ColoursCollection
+  ProjectCollection
 }
