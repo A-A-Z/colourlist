@@ -6,7 +6,9 @@
       </h1>
     </header>
 
-    <div>
+    <FilePanel />
+
+    <div style="display: none;">
       <div>{{saveStateTxt}}</div>
       <div>{{(projectKey || 'New')}}</div>
       <div>
@@ -60,6 +62,8 @@
 <script>
 import Vue from 'vue'
 import VueFirestore from 'vue-firestore'
+import router from './router'
+import FilePanel from './components/FilePanel.vue'
 import NewColour from './components/NewColour.vue'
 import List from './components/List.vue'
 import Output from './components/Output.vue'
@@ -83,6 +87,7 @@ export default {
   name: 'app',
 
   components: {
+    FilePanel,
     NewColour,
     List,
     Output,
@@ -248,6 +253,7 @@ export default {
           .then((data) => {
             this.projectKey = data.id
             this.saveState = 5 // saved
+            router.push({ path: `/${newID}` })
           })
       } else { // update project
         delete this.project['.key']
