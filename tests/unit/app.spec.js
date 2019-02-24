@@ -1,11 +1,19 @@
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, createLocalVue  } from '@vue/test-utils'
+import VueRouter from 'vue-router'
 import App from '@/App.vue'
+
+const localVue = createLocalVue()
+localVue.use(VueRouter)
+const router = new VueRouter()
 
 describe('App.vue', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallowMount(App);
+    wrapper = shallowMount(App, {
+      localVue,
+      router
+    });
   })
 
   it('renders main', () => {
@@ -13,15 +21,15 @@ describe('App.vue', () => {
   })
 
   it('Method colourCase returns lowercase', () => {
-    const wrapper = shallowMount(App, {
-      propsData: { defaultIsLowercase: true }
+    wrapper.setData({
+      configIsLowercase: true
     })
     expect(wrapper.vm.colourCase('#AaBbCc')).toEqual('#aabbcc')
   })
 
   it('Method colourCase returns uppercase', () => {
-    const wrapper = shallowMount(App, {
-      propsData: { defaultIsLowercase: false }
+    wrapper.setData({
+      configIsLowercase: false
     })
     expect(wrapper.vm.colourCase('#AaBbCc')).toEqual('#AABBCC')
   })

@@ -8,7 +8,13 @@ describe('Output.vue', () => {
     wrapper = shallowMount(Output, {
       propsData: {
         colourTxt: 'colour',
-        isLowercase: true
+        isLowercase: true,
+        colourNames: {
+          '#ffffff': 'White',
+          '#000000': 'Black',
+          '#ff0000': 'Red',
+          '#7c2626': 'Crown of Thorns'
+        }
       }
     })
   })

@@ -5,7 +5,13 @@ describe('List.vue', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallowMount(List)
+    wrapper = shallowMount(List, {
+      propsData: {
+        colourNames: {
+          '#ff0000': 'Red',
+        }
+      }
+    })
   })
 
   it('renders List section', () => {
