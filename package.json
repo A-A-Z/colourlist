@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit --verbose"
+    "test:unit": "vue-cli-service test:unit --verbose",
+    "test:watch": "vue-cli-service test:unit --verbose --watch"
   },
   "dependencies": {
     "firebase": "^5.8.1",

@@ -1,0 +1,18 @@
+
+.o-file {
+  align-items: center;
+  display: flex;
+  height: 50px;
+  justify-content: flex-end;
+  padding: 0 20px;
+
+  &__title {
+    border: 1px solid $colour-mercury;
+    border-width: 0 0 1px 0;
+    font-family: $font-montserrat;
+    font-size: 1.1rem;
+    font-weight: 300;
+    margin-right: 15px;
+    width: 200px;
+  }
+}

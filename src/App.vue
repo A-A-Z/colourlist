@@ -6,25 +6,11 @@
       </h1>
     </header>
 
-    <FilePanel />
-
-    <div style="display: none;">
-      <div>{{saveStateTxt}}</div>
-      <div>{{(projectKey || 'New')}}</div>
-      <div>
-        <input type='text' v-model='tempProjectId' />
-        <button @click='onLoadClick'>Load</button>
-      </div>
-      <div>
-        <input
-          type='text'
-          :value="(project) ? project.name : ''"
-          placeholder='Untitled Project'
-          @input='changeProjectName'
-        />
-      </div>
-      <div><button @click='saveProject'>Save</button></div>
-    </div>
+    <FilePanel
+      :title='project.name'
+      :saveState='saveStateTxt'
+      :updateTitle='updateTitle'
+    />
 
     <NewColour
       :newColourInput='newColourInput'
@@ -129,12 +115,6 @@ export default {
     }
   },
 
-  // firestore () {
-  //   return {
-  //     // project: ProjectCollection.where('name', '==', 'test colour 1')
-  //   }
-  // },
-
   created () {
     const route = this.$route.params
     // if ID passed via URL then load
@@ -214,14 +194,10 @@ export default {
       }
     },
 
-    changeProjectName (e) {
-      const project = this.project
-      project.name = e.target.value // TODO: validate
+    updateTitle (value) {
+      let project = this.project
+      project.name = value
       this.project = project
-    },
-
-    onLoadClick () { // TODO Not the final method
-      this.loadProject(this.tempProjectId)
     },
 
     loadProject (projectId) {
