@@ -11,10 +11,11 @@
         @input="onTitleInput"
       />
       <button
-        class='o-file__save-btn'
-      >Save ({{saveState}})</button>
+        :class='`o-file__save-btn o-file__save-btn--${saveState}`'
+        @click='save'
+        :disabled='saveDisabled'
+      ><i class="fas fa-cog fa-spin thrubber"></i> {{saveLabel}}</button>
     </div>
-
   </section>
 </template>
 
@@ -34,6 +35,10 @@ export default {
     updateTitle: {
       type: Function,
       default: (e) => { console.warn('[default] updateTitle called', e) }
+    },
+    save: {
+      type: Function,
+      default: (e) => { console.warn('[default] save called') }
     }
   },
 
@@ -53,6 +58,39 @@ export default {
 
         default:
           return false
+      }
+    },
+
+    saveDisabled () { // returns true/false based on saveState
+      switch (this.saveState) {
+        case ('changed'):
+          return false
+
+        default:
+          return true
+      }
+    },
+
+    saveLabel () {
+      switch (this.saveState) {
+        case ('mounted'):
+          return '---'
+
+        case ('loading'):
+          return 'Loading'
+
+        case ('ready'):
+        case ('changed'):
+          return 'Save'
+
+        case ('saving'):
+          return 'Saving'
+
+        case ('saved'):
+          return 'Saved'
+
+        default:
+          return 'Error'
       }
     }
   }

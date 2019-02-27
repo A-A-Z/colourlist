@@ -10,6 +10,7 @@
       :title='project.name'
       :saveState='saveStateTxt'
       :updateTitle='updateTitle'
+      :save='saveProject'
     />
 
     <NewColour
@@ -198,6 +199,7 @@ export default {
       let project = this.project
       project.name = value
       this.project = project
+      this.saveState = 3
     },
 
     loadProject (projectId) {

@@ -120,4 +120,9 @@ describe('App.vue', () => {
     wrapper.setData({ newColourInput: '#fffffp' })
     expect(wrapper.vm.isNewColourValid).toEqual(false)
   })
+
+  it('Method updateTitle updates project.name', () => {
+    wrapper.vm.updateTitle('New Title')
+    expect(wrapper.vm.project.name).toEqual('New Title')
+  })
 })

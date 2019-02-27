@@ -23,13 +23,13 @@ describe('FilePanel.vue', () => {
     expect(wrapper.find('.o-file__title').element.value).toBe('Test Title')
   })
 
-  it('saveState "loading" disables input', () => {
-    wrapper.setProps({ saveState: 'loading' })
+  it('saveState "mounted" disables input', () => {
+    wrapper.setProps({ saveState: 'mounted' })
     expect(wrapper.find('.o-file__title').attributes('disabled','disabled')).toBeTruthy()
   })
 
-  it('saveState "mounted" disables input', () => {
-    wrapper.setProps({ saveState: 'mounted' })
+  it('saveState "loading" disables input', () => {
+    wrapper.setProps({ saveState: 'loading' })
     expect(wrapper.find('.o-file__title').attributes('disabled','disabled')).toBeTruthy()
   })
 
@@ -53,7 +53,37 @@ describe('FilePanel.vue', () => {
     expect(wrapper.find('.o-file__title').attributes('disabled','disabled')).toBeFalsy()
   })
 
-  it('input calls updateTitle', () => {
+  it('saveState "mounted" disables save button', () => {
+    wrapper.setProps({ saveState: 'mounted' })
+    expect(wrapper.find('.o-file__save-btn').attributes('disabled','disabled')).toBeTruthy()
+  })
+
+  it('saveState "loading" disables save button', () => {
+    wrapper.setProps({ saveState: 'loading' })
+    expect(wrapper.find('.o-file__save-btn').attributes('disabled','disabled')).toBeTruthy()
+  })
+
+  it('saveState "ready" disables save button', () => {
+    wrapper.setProps({ saveState: 'ready' })
+    expect(wrapper.find('.o-file__save-btn').attributes('disabled','disabled')).toBeTruthy()
+  })
+
+  it('saveState "changed" disables save button', () => {
+    wrapper.setProps({ saveState: 'changed' })
+    expect(wrapper.find('.o-file__save-btn').attributes('disabled','disabled')).toBeFalsy()
+  })
+
+  it('saveState "saving" disables save button', () => {
+    wrapper.setProps({ saveState: 'saving' })
+    expect(wrapper.find('.o-file__save-btn').attributes('disabled','disabled')).toBeTruthy()
+  })
+
+  it('saveState "saved" disables save button', () => {
+    wrapper.setProps({ saveState: 'saved' })
+    expect(wrapper.find('.o-file__save-btn').attributes('disabled','disabled')).toBeTruthy()
+  })
+
+  it('input calls updateTitle()', () => {
     wrapper.setProps({
       saveState: 'ready',
       updateTitle: jest.fn()
@@ -64,5 +94,18 @@ describe('FilePanel.vue', () => {
       .trigger('input')
 
     expect(wrapper.vm.updateTitle).toHaveBeenCalledTimes(1)
+  })
+
+  it('clicking save button calls save()', () => {
+    wrapper.setProps({
+      saveState: 'changed',
+      save: jest.fn()
+    })
+
+    wrapper
+      .find('.o-file__save-btn')
+      .trigger('click')
+
+    expect(wrapper.vm.save).toHaveBeenCalledTimes(1)
   })
 })
