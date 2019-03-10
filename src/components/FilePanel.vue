@@ -11,17 +11,29 @@
         @input="onTitleInput"
       />
       <button
-        :class='`o-file__save-btn o-file__save-btn--${saveState}`'
+        :class='`o-file__save a-save-btn a-save-btn--${saveState}`'
         @click='save'
         :disabled='saveDisabled'
-      ><i class="fas fa-cog fa-spin thrubber"></i> {{saveLabel}}</button>
+      >
+        <span>{{saveLabel}}</span>
+        <Throbber
+          :state='throbberState'
+          :isActive='throbberIsActive'
+        />
+      </button>
     </div>
   </section>
 </template>
 
 <script>
+import Throbber from './views/Throbber'
+
 export default {
   name: 'FilePanel',
+
+  components: {
+    Throbber
+  },
 
   props: {
     title: {
@@ -91,6 +103,34 @@ export default {
 
         default:
           return 'Error'
+      }
+    },
+
+    throbberState () {
+      switch (this.saveState) {
+        case 'loading':
+          return 'download'
+
+        case 'changed':
+        case 'saving':
+          return 'upload'
+
+        case 'error':
+          return 'error'
+
+        default:
+          return 'default'
+      }
+    },
+
+    throbberIsActive () {
+      switch (this.saveState) {
+        case 'loading':
+        case 'saving':
+          return true
+
+        default:
+          return false
       }
     }
   }

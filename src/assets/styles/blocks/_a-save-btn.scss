@@ -1,0 +1,47 @@
+
+.a-save-btn {
+  $height: 24px;
+
+  align-items: center;
+  background-color: #4f60a0;
+  border: 0;
+  border-radius: 3px;
+  color: $colour-white;
+  cursor: pointer;
+  display: flex;
+  font-size: 0.9em;
+  font-weight: 600;
+  height: $height;
+  letter-spacing: 0.02em;
+  justify-content: space-between;
+  padding: 0 6px;
+  text-transform: uppercase;
+  transition: background-color 0.4s ease;
+  width: 100px;
+
+  &__throbber {
+    font-size: 14px;
+  }
+
+  &--ready,
+  &--saving {
+    background-color: $colour-action;
+    cursor: default;
+  }
+
+  &--saved {
+    background-color: $colour-aqua-forest;
+    cursor: default;
+  }
+
+  &--mounted,
+  &--loading {
+    background-color: $colour-nobel;
+    cursor: default;
+  }
+
+  &--error {
+    background-color: $colour-error;
+    cursor: default;
+  }
+}

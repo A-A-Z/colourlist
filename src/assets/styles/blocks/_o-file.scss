@@ -16,52 +16,5 @@
     width: 200px;
   }
 
-  &__save-btn {
-    background-color: $colour-action;
-    border: 0;
-    border-radius: 6px;
-    color: $colour-white;
-    cursor: pointer;
-    font-size: 0.7em;
-    font-weight: 600;
-    height: 24px;
-    letter-spacing: 0.1em;
-    position: relative;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    width: 9em;
-
-    .thrubber {
-      display: none;
-      height: 1em;
-      // left: 0.6em;
-      // position: absolute;
-      width: 1em;
-    }
-
-    &--ready,
-    &--saved,
-    &--saving {
-      background-color: rgba($colour-action, 0.3);
-      cursor: default;
-    }
-
-    &--mounted,
-    &--loading {
-      background-color: $colour-silver;
-      cursor: default;
-    }
-
-    &--error {
-      background-color: $colour-error;
-      cursor: default;
-    }
-
-    &--loading,
-    &--saving {
-      .thrubber {
-        display: inline-block;
-      }
-    }
-  }
+  &__save { }
 }
