@@ -59,7 +59,7 @@ import Output from './components/Output.vue'
 import ConfigForm from './components/ConfigForm.vue'
 import GetColourName from './helpers/GetColourName'
 import Patterns from './helpers/Patterns'
-import { ProjectCollection } from './api/firebase.js'
+import { auth, ProjectCollection } from './api/firebase.js'
 
 Vue.use(VueFirestore)
 
@@ -120,12 +120,23 @@ export default {
 
   created () {
     const route = this.$route.params
-    // if ID passed via URL then load
-    if (route && route.id) { // TODO regex check
-      this.loadProject(route.id)
-    } else {
-      this.saveState = 2
-    }
+
+    // wait till user is logged in
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        // User is signed in.
+        console.log('onAuthStateChanged2', user.uid)
+
+        // if ID passed via URL then load
+        if (route && route.id) { // TODO regex check
+          this.loadProject(route.id)
+        } else {
+          this.saveState = 2
+        }
+      } else {
+        console.log('log out')
+      }
+    })
   },
 
   methods: {
