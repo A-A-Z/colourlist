@@ -34,6 +34,7 @@
         :value='newColourInput'
         :maxlength='7'
         spellcheck='false'
+        :disabled='isDisabled'
         @input='updateColourInput'
         @keyup.enter="saveColour"
       />
@@ -44,7 +45,7 @@
         ]"
         type='button'
         @click='saveColour'
-        :disabled='!isNewColourValid'
+        :disabled='!isNewColourValid || isDisabled'
         aria-label='Add colour to list'
       />
     </div>
@@ -101,6 +102,10 @@ export default {
       type: String,
       default: null
     },
+    saveState: {
+      type: String,
+      default: 'ready'
+    },
     updateNewColour: {
       type: Function,
       default: () => false
@@ -131,6 +136,21 @@ export default {
 
     togglePicker () {
       this.isPickerOpen = !this.isPickerOpen
+    }
+  },
+
+  computed: {
+    isDisabled () {
+      switch (this.saveState) {
+        case 'ready':
+        case 'changed':
+        case 'saved':
+        case 'error':
+          return false
+
+        default:
+          return true
+      }
     }
   },
 

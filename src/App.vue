@@ -17,6 +17,7 @@
       :newColourInput='newColourInput'
       :isNewColourValid='isNewColourValid'
       :activeColour='activeColour'
+      :saveState='saveStateTxt'
       :updateNewColour='updateNewColour'
       :saveColour='saveColour'
     />
@@ -25,6 +26,7 @@
       :colours='colours'
       :colourNames='colourNames'
       :activeColour='activeColour'
+      :saveState='saveStateTxt'
       :setActiveColour='setActiveColour'
       :deleteSavedColour='deleteSavedColour'
     />
@@ -169,6 +171,7 @@ export default {
             this.activeColour = null
           }
           this.colours = colours
+          this.saveState = 3
         }
         this.newColourInput = ''
       }

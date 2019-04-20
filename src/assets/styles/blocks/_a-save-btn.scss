@@ -9,7 +9,7 @@
   color: $colour-white;
   cursor: pointer;
   display: flex;
-  font-size: 0.9em;
+  font-size: 0.7em;
   font-weight: 600;
   height: $height;
   letter-spacing: 0.02em;
@@ -17,7 +17,7 @@
   padding: 0 6px;
   text-transform: uppercase;
   transition: background-color 0.4s ease;
-  width: 100px;
+  width: 80px;
 
   &__throbber {
     font-size: 14px;

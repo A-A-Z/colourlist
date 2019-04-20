@@ -17,7 +17,7 @@
         :aria-pressed='isActive(colour)'
       >
         <div
-          v-if='isActive(colour)'
+          v-if='isActive(colour) && !isDisabled'
           class='o-colour-list__delete'
           @click.stop='deleteSavedColour(colour)'
         >
@@ -46,6 +46,10 @@ export default {
     activeColour: {
       type: String,
       default: null
+    },
+    saveState: {
+      type: String,
+      default: 'ready'
     },
     setActiveColour: {
       type: Function,
@@ -112,6 +116,19 @@ export default {
       }
 
       return colours.sort(hueCompare)
+    },
+
+    isDisabled () {
+      switch (this.saveState) {
+        case 'ready':
+        case 'changed':
+        case 'saved':
+        case 'error':
+          return false
+
+        default:
+          return true
+      }
     }
   }
 }
