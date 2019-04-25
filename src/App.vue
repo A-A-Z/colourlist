@@ -50,6 +50,7 @@
 
 <script>
 import Vue from 'vue'
+import { mapState } from 'vuex'
 import VueFirestore from 'vue-firestore'
 import router from './router'
 import FilePanel from './components/FilePanel.vue'
@@ -60,6 +61,7 @@ import ConfigForm from './components/ConfigForm.vue'
 import GetColourName from './helpers/GetColourName'
 import Patterns from './helpers/Patterns'
 import { auth, ProjectCollection } from './api/firebase.js'
+import store from './store'
 
 Vue.use(VueFirestore)
 
@@ -74,6 +76,8 @@ Vue.use(VueFirestore)
 
 export default {
   name: 'app',
+
+  store,
 
   components: {
     FilePanel,
@@ -97,13 +101,7 @@ export default {
 
   data: function () {
     return {
-      newColour: '#194d33',
       newColourInput: '#',
-      // colours: [
-      //   '#ffffff', '#ff0000', '#00ff00', '#0000ff', '#000000', '#7c2626', '#265c7c', '#e9c524',
-      //   '#123120', '#123124',
-      //   '#321321', '#321322', '#321323'
-      // ],
       colours: [],
       activeColour: null,
       configIsUk: this.defaultIsUk,
@@ -186,6 +184,8 @@ export default {
         }
         this.newColourInput = ''
       }
+
+      store.commit('ADD_COLOUR_TO_LIST', '#fff000')
     },
 
     setActiveColour (colour) {
@@ -326,7 +326,13 @@ export default {
         'error'
       ]
       return txt[this.saveState]
-    }
+    },
+
+    ...mapState(
+      'colourList', {
+        colours2: state => state.colours
+      }
+    )
   }
 }
 </script>

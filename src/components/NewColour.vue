@@ -80,10 +80,14 @@
 
 <script>
 import { Sketch } from 'vue-color'
+import { mapState } from 'vuex'
 import GetColourName from '../helpers/GetColourName'
+import store from '../store'
 
 export default {
   name: 'NewColour',
+
+  store,
 
   components: {
     'sketch-picker': Sketch
@@ -151,7 +155,13 @@ export default {
         default:
           return true
       }
-    }
+    },
+
+    ...mapState(
+      'colourList', {
+        newColourInput: state => state.newColourInput
+      }
+    )
   },
 
   watch: {
