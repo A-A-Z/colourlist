@@ -31,12 +31,12 @@
         class='m-colour-field__input'
         type='text'
         placeholder='#'
-        :value='newColourInput'
+        :value='newColourInput2'
         :maxlength='7'
         spellcheck='false'
         :disabled='isDisabled'
         @input='updateColourInput'
-        @keyup.enter="saveColour"
+        @keyup.enter="addColour"
       />
       <button
         :class="[
@@ -44,7 +44,7 @@
           isNewColourValid ? '' : 'm-colour-field__add--disabled'
         ]"
         type='button'
-        @click='saveColour'
+        @click='addColour'
         :disabled='!isNewColourValid || isDisabled'
         aria-label='Add colour to list'
       />
@@ -80,9 +80,13 @@
 
 <script>
 import { Sketch } from 'vue-color'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import GetColourName from '../helpers/GetColourName'
 import store from '../store'
+import {
+  ADD_COLOUR_TO_LIST,
+  NEW_COLOUR_CHANGE
+} from '../store/mutation-types'
 
 export default {
   name: 'NewColour',
@@ -132,6 +136,7 @@ export default {
   methods: {
     updateColourInput (e) {
       this.updateNewColour(e.target.value)
+      this.newColourChange2(e.target.value)
     },
 
     updatePickerValue (value) {
@@ -140,7 +145,12 @@ export default {
 
     togglePicker () {
       this.isPickerOpen = !this.isPickerOpen
-    }
+    },
+
+    ...mapMutations('colourList', {
+      newColourChange2: NEW_COLOUR_CHANGE, // TODO rename
+      addColour: ADD_COLOUR_TO_LIST
+    })
   },
 
   computed: {
@@ -159,7 +169,7 @@ export default {
 
     ...mapState(
       'colourList', {
-        newColourInput: state => state.newColourInput
+        newColourInput2: state => state.newColourInput // TODO rename
       }
     )
   },

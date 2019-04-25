@@ -16,7 +16,7 @@ const mutations = {
 
   [ADD_COLOUR_TO_LIST] (state) {
     let colours = state.colours.slice()
-    colours.push(newColour)
+    colours.push(state.newColourInput)
     state.colours = colours
     state.newColourInput = '#'
   }
