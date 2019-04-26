@@ -19,7 +19,7 @@
         <div
           v-if='isActive(colour) && !isDisabled'
           class='o-colour-list__delete'
-          @click.stop='deleteSavedColour(colour)'
+          @click.stop='removeColourFromList(colour)'
         >
           <i class="fas fa-trash-alt"></i>
         </div>
@@ -30,34 +30,19 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations } from 'vuex'
+import store from '../store'
+import { SET_ACTIVE_COLOUR, REMOVE_COLOUR_FROM_LIST } from '../store/mutation-types'
 
 export default {
   name: 'List',
 
+  store,
+
   props: {
-    colours: {
-      type: Array,
-      default: () => []
-    },
-    colourNames: {
-      type: Object,
-      default: () => ({})
-    },
-    activeColour: {
-      type: String,
-      default: null
-    },
-    saveState: {
+    saveState: { // TODO replace with store
       type: String,
       default: 'ready'
-    },
-    setActiveColour: {
-      type: Function,
-      default: () => false
-    },
-    deleteSavedColour: {
-      type: Function,
-      default: () => false
     }
   },
 
@@ -68,7 +53,12 @@ export default {
 
     colourLabel (colour) {
       return this.colourNames[colour] || 'unknown'
-    }
+    },
+
+    ...mapMutations('colourList', {
+      removeColourFromList: REMOVE_COLOUR_FROM_LIST,
+      setActiveColour: SET_ACTIVE_COLOUR
+    })
   },
 
   computed: {
@@ -129,7 +119,11 @@ export default {
         default:
           return true
       }
-    }
+    },
+
+    ...mapState('colourList', ['colours', 'activeColour']),
+
+    ...mapGetters('colourList', ['colourNames'])
   }
 }
 </script>

@@ -18,12 +18,7 @@
     />
 
     <List
-      :colours='colours'
-      :colourNames='colourNames'
-      :activeColour='activeColour'
       :saveState='saveStateTxt'
-      :setActiveColour='setActiveColour'
-      :deleteSavedColour='deleteSavedColour'
     />
 
     <Output
@@ -53,7 +48,6 @@ import NewColour from './components/NewColour.vue'
 import List from './components/List.vue'
 import Output from './components/Output.vue'
 import ConfigForm from './components/ConfigForm.vue'
-import GetColourName from './helpers/GetColourName'
 import { auth, ProjectCollection } from './api/firebase.js'
 import store from './store'
 
@@ -136,27 +130,6 @@ export default {
       return this.configIsLowercase ? string.toLowerCase() : string.toUpperCase()
     },
 
-    setActiveColour (colour) {
-      if (this.activeColour === colour) {
-        this.activeColour = null
-        this.newColourInput = '#'
-      } else {
-        this.activeColour = colour
-        this.newColourInput = colour
-      }
-    },
-
-    deleteSavedColour (colour) {
-      // filter out the passed colour
-      this.colours = this.colours.filter(entry => entry !== colour)
-
-      // if colour is also the active colour then clear that
-      if (this.activeColour === colour) {
-        this.activeColour = null
-        this.newColourInput = '#'
-      }
-    },
-
     updateTitle (value) {
       let project = this.project
       project.name = value
@@ -227,36 +200,6 @@ export default {
   computed: {
     colourTxt () {
       return this.configIsUk ? 'colour' : 'color'
-    },
-
-    colourNames () {
-      let names = {}
-      let nameCount = {}
-      let firsts = {}
-
-      // create names list from this.colours
-      // (lets try to do this in one loop)
-      for (const colour of this.colours) {
-        let name = GetColourName(colour)
-        nameCount[name] = (nameCount[name] + 1) || 1
-
-        // checking for duplicates
-        switch (nameCount[name]) {
-          case 1: // new colour name
-            names[colour] = name
-            firsts[name] = colour
-            break
-
-          case 2: // name used once before
-            names[firsts[name]] = `${name} 1` // rename the first
-            /* falls through */
-
-          default: // name used more then once
-            names[colour] = `${name} ${nameCount[name]}`
-        }
-      }
-
-      return names
     },
 
     saveStateTxt () {
