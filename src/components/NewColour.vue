@@ -7,11 +7,11 @@
         isNewColourValid ? '' : 'm-colour-preview--invalid'
       ]"
       :style="{
-        backgroundColor: isNewColourValid ? newColourInput : '#fff'
+        backgroundColor: isNewColourValid ? newColourHex : '#fff'
       }"
     >
       <div
-        v-if='activeColour !== null && activeColour !== newColourInput'
+        v-if='activeColour !== null && activeColour !== newColourHex'
         class='m-colour-preview__active-colour'
         :style="{
           borderTopColor: activeColour
@@ -21,7 +21,7 @@
         v-if='isNewColourValid'
         class='m-colour-preview__label'
       >
-        {{GetColourName(newColourInput)}}
+        {{GetColourName(newColourHex)}}
       </div>
       <div v-else class='m-colour-preview__label'>none</div>
     </div>
@@ -31,7 +31,7 @@
         class='m-colour-field__input'
         type='text'
         placeholder='#'
-        :value='newColourInput2'
+        :value='newColourHex'
         :maxlength='7'
         spellcheck='false'
         :disabled='isDisabled'
@@ -80,13 +80,11 @@
 
 <script>
 import { Sketch } from 'vue-color'
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import GetColourName from '../helpers/GetColourName'
 import store from '../store'
-import {
-  ADD_COLOUR_TO_LIST,
-  NEW_COLOUR_CHANGE
-} from '../store/mutation-types'
+import { ADD_COLOUR_TO_LIST } from '../store/mutation-types'
+import { ON_NEW_COLOUR_INPUT } from '../store/action-types'
 
 export default {
   name: 'NewColour',
@@ -98,49 +96,32 @@ export default {
   },
 
   props: {
-    newColourInput: {
-      type: String,
-      required: true
-    },
-    isNewColourValid: {
-      type: Boolean,
-      default: false
-    },
-    activeColour: {
-      type: String,
-      default: null
-    },
-    saveState: {
+    saveState: { // TODO move to cloud store
       type: String,
       default: 'ready'
-    },
-    updateNewColour: {
-      type: Function,
-      default: () => false
-    },
-    saveColour: {
-      type: Function,
-      default: () => false
     }
   },
 
   data: function () {
     return {
-      pickerColour: this.newColourInput,
+      pickerColour: '#000000',
       preSetColours: [],
       GetColourName: GetColourName,
       isPickerOpen: false
     }
   },
 
+  created () {
+    this.pickerColour = this.newColourHex
+  },
+
   methods: {
     updateColourInput (e) {
-      this.updateNewColour(e.target.value)
-      this.newColourChange2(e.target.value)
+      this.onNewColourInput(e.target.value)
     },
 
     updatePickerValue (value) {
-      this.updateNewColour(value.hex)
+      this.onNewColourInput(value.hex)
     },
 
     togglePicker () {
@@ -148,8 +129,11 @@ export default {
     },
 
     ...mapMutations('colourList', {
-      newColourChange2: NEW_COLOUR_CHANGE, // TODO rename
       addColour: ADD_COLOUR_TO_LIST
+    }),
+
+    ...mapActions('colourList', {
+      onNewColourInput: ON_NEW_COLOUR_INPUT
     })
   },
 
@@ -167,15 +151,13 @@ export default {
       }
     },
 
-    ...mapState(
-      'colourList', {
-        newColourInput2: state => state.newColourInput // TODO rename
-      }
-    )
+    ...mapState('colourList', ['activeColour']),
+
+    ...mapGetters('colourList', ['newColourHex', 'isNewColourValid'])
   },
 
   watch: {
-    newColourInput (newVal) {
+    newColourHex (newVal) {
       this.pickerColour = newVal
     }
   }

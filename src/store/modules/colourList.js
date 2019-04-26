@@ -1,7 +1,11 @@
 import {
   ADD_COLOUR_TO_LIST,
   NEW_COLOUR_CHANGE
-} from '../mutation-types';
+} from '../mutation-types'
+import {
+  ON_NEW_COLOUR_INPUT
+} from '../action-types'
+import Patterns from '../../helpers/Patterns'
 
 const state = () => ({
   activeColour: null,
@@ -23,12 +27,33 @@ const mutations = {
 }
 
 const getters = {
+  newColourHex: ({ newColourInput }) => {
+    // return the active colour as formatted HEX
+    // TODO: re-add case settings
+    return (/^#/.test(newColourInput)) ? newColourInput : `#${newColourInput}`
+  },
 
+  isNewColourValid: ({ newColourInput }) => Patterns.validColour.test(newColourInput)
+}
+
+const actions = {
+  [ON_NEW_COLOUR_INPUT] ({ commit, getters }, value) {
+    const oldValue = getters.newColourHex
+
+    // set new value
+    commit(NEW_COLOUR_CHANGE, value)
+
+    // if new value is invalid then reset to old value
+    if (!Patterns.inputColour.test(value)) {
+      commit(NEW_COLOUR_CHANGE, oldValue)
+    }
+  }
 }
 
 export default {
   namespaced: true,
   state,
   mutations,
-  getters
+  getters,
+  actions
 }

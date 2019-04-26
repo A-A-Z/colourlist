@@ -14,12 +14,7 @@
     />
 
     <NewColour
-      :newColourInput='newColourInput'
-      :isNewColourValid='isNewColourValid'
-      :activeColour='activeColour'
       :saveState='saveStateTxt'
-      :updateNewColour='updateNewColour'
-      :saveColour='saveColour'
     />
 
     <List
@@ -59,7 +54,6 @@ import List from './components/List.vue'
 import Output from './components/Output.vue'
 import ConfigForm from './components/ConfigForm.vue'
 import GetColourName from './helpers/GetColourName'
-import Patterns from './helpers/Patterns'
 import { auth, ProjectCollection } from './api/firebase.js'
 import store from './store'
 
@@ -138,54 +132,8 @@ export default {
   },
 
   methods: {
-    colourCase (string) {
+    colourCase (string) { // TODO do something with this (settings store?)
       return this.configIsLowercase ? string.toLowerCase() : string.toUpperCase()
-    },
-
-    updateNewColour (newValue) {
-      if (Patterns.inputColour.test(newValue)) {
-        // add # suffix if missing
-        this.newColourInput = (/^#/.test(newValue)) ? this.colourCase(newValue) : `#${this.colourCase(newValue)}`
-      } else {
-        // force correct hex inputs
-        const oldValue = this.newColourInput
-        this.newColourInput = `${this.newColourInput} `
-        this.$nextTick(() => {
-          this.newColourInput = oldValue
-        })
-      }
-    },
-
-    saveColour () {
-      if (this.isNewColourValid) {
-        let colours = this.colours.slice()
-        let newColour = this.colourCase(this.newColourInput)
-        let [match, colourHex] = newColour.match(Patterns.colourChars)
-
-        // if a 3 letter hex then double the letters
-        if (match && colourHex.length === 3) {
-          const splitColour = colourHex.split('')
-          const doubleLetters = (accumulator, letter) => `${accumulator}${letter}${letter}`
-          colourHex = splitColour.reduce(doubleLetters, '')
-        }
-
-        newColour = '#' + colourHex
-
-        if (!colours.includes(newColour)) {
-          if (this.activeColour === null) { // no active, so new colour
-            colours.push('#' + colourHex)
-          } else { // active, so update current
-            const index = colours.indexOf(this.activeColour)
-            colours[index] = '#' + colourHex
-            this.activeColour = null
-          }
-          this.colours = colours
-          this.saveState = 3
-        }
-        this.newColourInput = ''
-      }
-
-      store.commit('ADD_COLOUR_TO_LIST', '#fff000')
     },
 
     setActiveColour (colour) {
@@ -279,10 +227,6 @@ export default {
   computed: {
     colourTxt () {
       return this.configIsUk ? 'colour' : 'color'
-    },
-
-    isNewColourValid () {
-      return Patterns.validColour.test(this.newColourInput)
     },
 
     colourNames () {
