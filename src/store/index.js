@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import colourList from './modules/colourList'
+import { colourList, settings, cloud } from './modules'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    colourList
+    colourList,
+    settings,
+    cloud
   }
 })

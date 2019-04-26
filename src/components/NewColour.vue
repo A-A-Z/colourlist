@@ -95,12 +95,12 @@ export default {
     'sketch-picker': Sketch
   },
 
-  props: {
-    saveState: { // TODO move to cloud store
-      type: String,
-      default: 'ready'
-    }
-  },
+  // props: {
+  //   saveState: { // TODO move to cloud store
+  //     type: String,
+  //     default: 'ready'
+  //   }
+  // },
 
   data: function () {
     return {
@@ -152,6 +152,8 @@ export default {
     },
 
     ...mapState('colourList', ['activeColour']),
+
+    ...mapState('cloud', ['saveState']),
 
     ...mapGetters('colourList', ['newColourHex', 'isNewColourValid'])
   },
