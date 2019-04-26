@@ -22,8 +22,6 @@
     />
 
     <Output
-      :colours='colours'
-      :colourNames='colourNames'
       :colourTxt='colourTxt'
       :isLowercase='configIsLowercase'
     />
@@ -88,7 +86,7 @@ export default {
   },
 
   data: function () {
-    return {
+    return { // TODO remove some of these for Vuex
       newColourInput: '#',
       colours: [],
       activeColour: null,

@@ -9,23 +9,20 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
+import store from '../store'
+
 export default {
   name: 'Output',
 
+  store,
+
   props: {
-    colours: {
-      type: Array,
-      default: () => []
-    },
-    colourNames: {
-      type: Object,
-      default: () => ({})
-    },
-    colourTxt: {
+    colourTxt: { // TODO change to settings store
       type: String,
       required: true
     },
-    isLowercase: {
+    isLowercase: { // TODO change to settings store
       type: Boolean,
       default: true
     }
@@ -57,7 +54,11 @@ export default {
 
       // sort array, convert to string with line breaks and return
       return scssLines.sort().join('\n')
-    }
+    },
+
+    ...mapState('colourList', ['colours']),
+
+    ...mapGetters('colourList', ['colourNames'])
   }
 }
 </script>
