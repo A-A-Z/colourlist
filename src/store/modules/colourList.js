@@ -51,10 +51,10 @@ const mutations = {
 }
 
 const getters = {
-  newColourHex: ({ newColourInput }) => {
+  newColourHex: ({ newColourInput }, getters, { settings }) => {
     // return the active colour as formatted HEX
-    // TODO: re-add case settings
-    return (/^#/.test(newColourInput)) ? newColourInput : `#${newColourInput}`
+    const colour = (/^#/.test(newColourInput)) ? newColourInput : `#${newColourInput}`
+    return settings.isLowercase ? colour.toLowerCase() : colour.toUpperCase()
   },
 
   isNewColourValid: ({ newColourInput }) => Patterns.validColour.test(newColourInput),

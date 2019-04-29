@@ -1,6 +1,4 @@
-import {
-  SET_SETTING
-} from '../mutation-types'
+import { SET_SETTING } from '../mutation-types'
 
 const state = () => ({
   isUk: true,
@@ -8,14 +6,14 @@ const state = () => ({
 })
 
 const getters = {
-  // TODO
+  colourText: ({ isUk }) => isUk ? 'colour' : 'color'
 }
 
 const mutations = {
   [SET_SETTING] (state, newSetting) {
-    // Object.entries(newSetting).map(([key, value]) => {
-    // TODO
-    // })
+    Object.entries(newSetting).forEach(([key, value]) => {
+      state[key] = value
+    })
   }
 }
 

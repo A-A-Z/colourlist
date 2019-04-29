@@ -33,18 +33,12 @@
 import { mapState, mapGetters, mapMutations } from 'vuex'
 import store from '../store'
 import { SET_ACTIVE_COLOUR, REMOVE_COLOUR_FROM_LIST } from '../store/mutation-types'
+import { SAVE_STATES } from '../constants'
 
 export default {
   name: 'List',
 
   store,
-
-  props: {
-    saveState: { // TODO replace with store
-      type: String,
-      default: 'ready'
-    }
-  },
 
   methods: {
     isActive (colour) {
@@ -110,10 +104,10 @@ export default {
 
     isDisabled () {
       switch (this.saveState) {
-        case 'ready':
-        case 'changed':
-        case 'saved':
-        case 'error':
+        case SAVE_STATES.READY:
+        case SAVE_STATES.CHANGED:
+        case SAVE_STATES.SAVED:
+        case SAVE_STATES.ERROR:
           return false
 
         default:
@@ -122,6 +116,8 @@ export default {
     },
 
     ...mapState('colourList', ['colours', 'activeColour']),
+
+    ...mapState('cloud', ['saveState']),
 
     ...mapGetters('colourList', ['colourNames'])
   }

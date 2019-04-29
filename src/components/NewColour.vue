@@ -85,6 +85,7 @@ import GetColourName from '../helpers/GetColourName'
 import store from '../store'
 import { ADD_COLOUR_TO_LIST } from '../store/mutation-types'
 import { ON_NEW_COLOUR_INPUT } from '../store/action-types'
+import { SAVE_STATES } from '../constants'
 
 export default {
   name: 'NewColour',
@@ -95,18 +96,10 @@ export default {
     'sketch-picker': Sketch
   },
 
-  // props: {
-  //   saveState: { // TODO move to cloud store
-  //     type: String,
-  //     default: 'ready'
-  //   }
-  // },
-
   data: function () {
     return {
       pickerColour: '#000000',
       preSetColours: [],
-      GetColourName: GetColourName,
       isPickerOpen: false
     }
   },
@@ -116,6 +109,8 @@ export default {
   },
 
   methods: {
+    GetColourName,
+
     updateColourInput (e) {
       this.onNewColourInput(e.target.value)
     },
@@ -140,10 +135,10 @@ export default {
   computed: {
     isDisabled () {
       switch (this.saveState) {
-        case 'ready':
-        case 'changed':
-        case 'saved':
-        case 'error':
+        case SAVE_STATES.READY:
+        case SAVE_STATES.CHANGED:
+        case SAVE_STATES.SAVED:
+        case SAVE_STATES.ERROR:
           return false
 
         default:

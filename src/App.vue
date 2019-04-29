@@ -2,7 +2,7 @@
   <main id='app' class='t-main'>
     <header class='t-main__header o-main-heading'>
       <h1 class='o-main-heading__title'>
-        <span>Colour</span><span>List</span>
+        <span>{{colourText}}</span><span>List</span>
       </h1>
     </header>
 
@@ -13,24 +13,14 @@
       :save='saveProject'
     />
 
-    <NewColour
-      :saveState='saveStateTxt'
-    />
+    <NewColour />
 
-    <List
-      :saveState='saveStateTxt'
-    />
+    <List />
 
-    <Output
-      :colourTxt='colourTxt'
-      :isLowercase='configIsLowercase'
-    />
+    <Output />
 
     <footer class='t-main__footer'>
-      <ConfigForm
-        :configIsUk.sync='configIsUk'
-        :configIsLowercase.sync='configIsLowercase'
-      />
+      <ConfigForm />
     </footer>
 
   </main>
@@ -38,7 +28,7 @@
 
 <script>
 import Vue from 'vue'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import VueFirestore from 'vue-firestore'
 import router from './router'
 import FilePanel from './components/FilePanel.vue'
@@ -73,25 +63,9 @@ export default {
     ConfigForm
   },
 
-  props: {
-    // config defaults
-    defaultIsUk: {
-      type: Boolean,
-      default: true
-    },
-    defaultIsLowercase: {
-      type: Boolean,
-      default: true
-    }
-  },
-
   data: function () {
     return { // TODO remove some of these for Vuex
-      newColourInput: '#',
       colours: [],
-      activeColour: null,
-      configIsUk: this.defaultIsUk,
-      configIsLowercase: this.defaultIsLowercase,
       saveState: 0,
       project: {
         name: '',
@@ -124,10 +98,7 @@ export default {
   },
 
   methods: {
-    colourCase (string) { // TODO do something with this (settings store?)
-      return this.configIsLowercase ? string.toLowerCase() : string.toUpperCase()
-    },
-
+    // TODO move these to store
     updateTitle (value) {
       let project = this.project
       project.name = value
@@ -196,11 +167,7 @@ export default {
   },
 
   computed: {
-    colourTxt () {
-      return this.configIsUk ? 'colour' : 'color'
-    },
-
-    saveStateTxt () {
+    saveStateTxt () { // TODO replace with store
       const txt = [
         'mounted',
         'loading',
@@ -213,11 +180,7 @@ export default {
       return txt[this.saveState]
     },
 
-    ...mapState(
-      'colourList', {
-        colours2: state => state.colours
-      }
-    )
+    ...mapGetters('settings', ['colourText'])
   }
 }
 </script>

@@ -5,12 +5,12 @@
         :class="[
           'o-config__input',
           'a-checkbox',
-          configIsUk ? 'a-checkbox--checked' : ''
+          isUk ? 'a-checkbox--checked' : ''
         ]"
         id='config-is-uk'
         type='checkbox'
-        :checked='configIsUk'
-        @click='onChangeIsUk()'
+        :checked='isUk'
+        @click="toggleSetting('isUk')"
       />
       <label class='o-config__label' for='config-is-uk'>Queen's English</label>
     </div>
@@ -19,12 +19,12 @@
         :class="[
           'o-config__input',
           'a-checkbox',
-          configIsLowercase ? 'a-checkbox--checked' : ''
+          isLowercase ? 'a-checkbox--checked' : ''
         ]"
         id='config-is-lowercase'
         type='checkbox'
-        :checked='configIsLowercase'
-        @click='onChangeIsLowercase()'
+        :checked='isLowercase'
+        @click="toggleSetting('isLowercase')"
       />
       <label class='o-config__label' for='config-is-lowercase'>Lowercase</label>
     </div>
@@ -32,28 +32,27 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+import store from '../store'
+import { SET_SETTING } from '../store/mutation-types'
+
 export default {
   name: 'ConfigForm',
 
-  props: {
-    configIsUk: {
-      type: Boolean,
-      required: true
-    },
-    configIsLowercase: {
-      type: Boolean,
-      required: true
-    }
-  },
+  store,
 
   methods: {
-    onChangeIsUk () {
-      this.$emit('update:configIsUk', !this.configIsUk)
+    toggleSetting (setting) {
+      this.setSetting({ [setting]: !this[setting] })
     },
 
-    onChangeIsLowercase () {
-      this.$emit('update:configIsLowercase', !this.configIsLowercase)
-    }
+    ...mapMutations('settings', {
+      setSetting: SET_SETTING
+    })
+  },
+
+  computed: {
+    ...mapState('settings', ['isUk', 'isLowercase'])
   }
 }
 </script>

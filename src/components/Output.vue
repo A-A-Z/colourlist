@@ -17,17 +17,6 @@ export default {
 
   store,
 
-  props: {
-    colourTxt: { // TODO change to settings store
-      type: String,
-      required: true
-    },
-    isLowercase: { // TODO change to settings store
-      type: Boolean,
-      default: true
-    }
-  },
-
   methods: {
     colourCase (string) {
       return this.configIsLowercase ? string.toLowerCase() : string.toUpperCase()
@@ -47,7 +36,7 @@ export default {
           .toLowerCase()
 
       // format the line of SCSS code
-      const scssLine = (colour) => `$${this.colourTxt}-${formatColourTxt(colour)}: ${colourCase(colour)};`
+      const scssLine = (colour) => `$${this.colourText}-${formatColourTxt(colour)}: ${colourCase(colour)};`
 
       // convert colours array into an array of SCSS lines
       const scssLines = this.colours.map(scssLine)
@@ -58,7 +47,11 @@ export default {
 
     ...mapState('colourList', ['colours']),
 
-    ...mapGetters('colourList', ['colourNames'])
+    ...mapState('settings', ['isLowercase']),
+
+    ...mapGetters('colourList', ['colourNames']),
+
+    ...mapGetters('settings', ['colourText'])
   }
 }
 </script>
