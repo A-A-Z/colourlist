@@ -28,7 +28,7 @@
 
 <script>
 import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import VueFirestore from 'vue-firestore'
 import router from './router'
 import FilePanel from './components/FilePanel.vue'
@@ -36,8 +36,9 @@ import NewColour from './components/NewColour.vue'
 import List from './components/List.vue'
 import Output from './components/Output.vue'
 import ConfigForm from './components/ConfigForm.vue'
-import { auth, ProjectCollection } from './api/firebase.js'
+import { ProjectCollection } from './api/firebase.js'
 import store from './store'
+import { CONNECT, LOAD } from './store/action-types'
 
 Vue.use(VueFirestore)
 
@@ -77,24 +78,7 @@ export default {
   },
 
   created () {
-    const route = this.$route.params
-
-    // wait till user is logged in
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        // User is signed in.
-        console.log('onAuthStateChanged2', user.uid)
-
-        // if ID passed via URL then load
-        if (route && route.id) { // TODO regex check
-          this.loadProject(route.id)
-        } else {
-          this.saveState = 2
-        }
-      } else {
-        console.log('log out')
-      }
-    })
+    this.connect()
   },
 
   methods: {
@@ -163,7 +147,21 @@ export default {
             console.error('Error', error) // TODO: handle error better
           })
       })
-    }
+    },
+
+    hanldeLogIn () {
+      const route = this.$route.params
+      // logged in
+      // if ID passed via URL then load
+      if (route && route.id) {
+        this.load(route.id)
+      }
+    },
+
+    ...mapActions('cloud', {
+      connect: CONNECT,
+      load: LOAD
+    })
   },
 
   computed: {
@@ -180,7 +178,17 @@ export default {
       return txt[this.saveState]
     },
 
+    ...mapState('cloud', ['user']),
+
     ...mapGetters('settings', ['colourText'])
+  },
+
+  watch: {
+    user (newVal) {
+      if (newVal) {
+        this.hanldeLogIn()
+      }
+    }
   }
 }
 </script>

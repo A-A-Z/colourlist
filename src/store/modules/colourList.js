@@ -1,19 +1,20 @@
+import Patterns from '@/helpers/Patterns'
+import GetColourName from '@/helpers/GetColourName'
 import {
   ADD_COLOUR_TO_LIST,
   NEW_COLOUR_CHANGE,
   REMOVE_COLOUR_FROM_LIST,
-  SET_ACTIVE_COLOUR
+  SET_ACTIVE_COLOUR,
+  SET_COLOURS
 } from '../mutation-types'
 import {
   ON_NEW_COLOUR_INPUT
 } from '../action-types'
-import Patterns from '../../helpers/Patterns'
-import GetColourName from '../../helpers/GetColourName'
 
 const state = () => ({
   activeColour: null,
   colours: [],
-  newColourInput: '#'
+  newColourInput: '#',
 })
 
 const mutations = {
@@ -47,6 +48,10 @@ const mutations = {
       state.activeColour = colour
       state.newColourInput = colour
     }
+  },
+
+  [SET_COLOURS] (state, { list }) {
+    state.colours = list
   }
 }
 

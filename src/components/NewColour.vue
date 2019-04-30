@@ -81,11 +81,11 @@
 <script>
 import { Sketch } from 'vue-color'
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
-import GetColourName from '../helpers/GetColourName'
-import store from '../store'
-import { ADD_COLOUR_TO_LIST } from '../store/mutation-types'
-import { ON_NEW_COLOUR_INPUT } from '../store/action-types'
-import { SAVE_STATES } from '../constants'
+import GetColourName from '@/helpers/GetColourName'
+import store from '@/store'
+import { ADD_COLOUR_TO_LIST } from '@/store/mutation-types'
+import { ON_NEW_COLOUR_INPUT } from '@/store/action-types'
+import { SAVE_STATES } from '@/constants'
 
 export default {
   name: 'NewColour',

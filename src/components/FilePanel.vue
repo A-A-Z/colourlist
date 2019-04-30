@@ -26,24 +26,28 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import store from '@/store'
 import Throbber from './views/Throbber'
 
 export default {
   name: 'FilePanel',
+
+  store,
 
   components: {
     Throbber
   },
 
   props: {
-    title: {
-      type: String,
-      default: 'Untitled Project'
-    },
-    saveState: {
-      type: String,
-      default: 'mounted'
-    },
+    // title: {
+    //   type: String,
+    //   default: 'Untitled Project'
+    // },
+    // saveState: {
+    //   type: String,
+    //   default: 'mounted'
+    // },
     updateTitle: {
       type: Function,
       default: (e) => { console.warn('[default] updateTitle called', e) }
@@ -56,7 +60,7 @@ export default {
 
   methods: {
     onTitleInput (e) {
-      this.updateTitle(e.target.value)
+      // this.updateTitle(e.target.value)
     }
   },
 
@@ -132,7 +136,9 @@ export default {
         default:
           return false
       }
-    }
+    },
+
+    ...mapState('cloud', ['saveState', 'title'])
   }
 }
 </script>
