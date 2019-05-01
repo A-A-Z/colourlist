@@ -9,3 +9,5 @@ export const SAVE_STATES = {
   SAVED: 'saved',
   ERROR: 'error'
 }
+
+export const DEFAULT_PROJECT_TITLE = 'Untitlted project'

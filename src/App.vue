@@ -6,12 +6,7 @@
       </h1>
     </header>
 
-    <FilePanel
-      :title='project.name'
-      :saveState='saveStateTxt'
-      :updateTitle='updateTitle'
-      :save='saveProject'
-    />
+    <FilePanel />
 
     <NewColour />
 

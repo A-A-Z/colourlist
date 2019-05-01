@@ -12,8 +12,8 @@
       />
       <button
         :class='`o-file__save a-save-btn a-save-btn--${saveState}`'
-        @click='save'
         :disabled='saveDisabled'
+        @click='onSave'
       >
         <span>{{saveLabel}}</span>
         <Throbber
@@ -26,8 +26,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import store from '@/store'
+import { CREATE, ON_TITLE_CHANGE, UPDATE } from '@/store/action-types'
+// import { SAVE_STATES } from '@/constants'
 import Throbber from './views/Throbber'
 
 export default {
@@ -39,29 +41,29 @@ export default {
     Throbber
   },
 
-  props: {
-    // title: {
-    //   type: String,
-    //   default: 'Untitled Project'
-    // },
-    // saveState: {
-    //   type: String,
-    //   default: 'mounted'
-    // },
-    updateTitle: {
-      type: Function,
-      default: (e) => { console.warn('[default] updateTitle called', e) }
-    },
-    save: {
-      type: Function,
-      default: (e) => { console.warn('[default] save called') }
-    }
-  },
-
   methods: {
     onTitleInput (e) {
-      // this.updateTitle(e.target.value)
-    }
+      this.onTitleChange(e.target.value)
+    },
+
+    onSave () {
+      if (this.id === null) {
+        // no id, so create new project
+        this.createProject()
+      } else {
+        // has id, update project
+        this.updateProject()
+      }
+    },
+
+    ...mapActions('project', {
+      onTitleChange: ON_TITLE_CHANGE
+    }),
+
+    ...mapActions('cloud', {
+      createProject: CREATE,
+      updateProject: UPDATE
+    })
   },
 
   computed: {
@@ -138,7 +140,9 @@ export default {
       }
     },
 
-    ...mapState('cloud', ['saveState', 'title'])
+    ...mapState('cloud', ['saveState']),
+
+    ...mapState('project', ['id', 'title'])
   }
 }
 </script>
