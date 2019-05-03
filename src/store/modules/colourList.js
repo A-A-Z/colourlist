@@ -1,5 +1,6 @@
 import Patterns from '@/helpers/Patterns'
 import GetColourName from '@/helpers/GetColourName'
+import { DEFAULT_NEW_COLOUR_INPUT } from '@/constants'
 import {
   ADD_COLOUR_TO_LIST,
   NEW_COLOUR_CHANGE,
@@ -14,19 +15,19 @@ import {
 const state = () => ({
   activeColour: null,
   colours: [],
-  newColourInput: '#',
+  newColourInput: DEFAULT_NEW_COLOUR_INPUT,
 })
 
 const mutations = {
-  [NEW_COLOUR_CHANGE] (state, value) {
-    state.newColourInput = value
-  },
-
   [ADD_COLOUR_TO_LIST] (state) {
     let colours = state.colours.slice()
     colours.push(state.newColourInput)
     state.colours = colours
-    state.newColourInput = '#'
+    state.newColourInput = DEFAULT_NEW_COLOUR_INPUT
+  },
+
+  [NEW_COLOUR_CHANGE] (state, value) {
+    state.newColourInput = value
   },
 
   [REMOVE_COLOUR_FROM_LIST] (state, colour) {
@@ -36,14 +37,14 @@ const mutations = {
     // if colour is also the active colour then clear that
     if (state.activeColour === colour) {
       state.activeColour = null
-      state.newColourInput = '#'
+      state.newColourInput = DEFAULT_NEW_COLOUR_INPUT
     }
   },
 
   [SET_ACTIVE_COLOUR] (state, colour) {
     if (state.activeColour === colour) {
       state.activeColour = null
-      state.newColourInput = '#'
+      state.newColourInput = DEFAULT_NEW_COLOUR_INPUT
     } else {
       state.activeColour = colour
       state.newColourInput = colour

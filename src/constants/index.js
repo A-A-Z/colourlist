@@ -11,3 +11,5 @@ export const SAVE_STATES = {
 }
 
 export const DEFAULT_PROJECT_TITLE = 'Untitlted project'
+
+export const DEFAULT_NEW_COLOUR_INPUT = '#'

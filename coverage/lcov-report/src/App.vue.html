@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/App.vue</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">src</a> App.vue
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">26.79% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>15/56</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">9.09% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>1/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">26.79% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>15/56</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;template&gt;
+  &lt;main id='app' class='t-main'&gt;
+    &lt;header class='t-main__header o-main-heading'&gt;
+      &lt;h1 class='o-main-heading__title'&gt;
+        &lt;span&gt;{{colourText}}&lt;/span&gt;&lt;span&gt;List&lt;/span&gt;
+      &lt;/h1&gt;
+    &lt;/header&gt;
+&nbsp;
+    &lt;FilePanel /&gt;
+&nbsp;
+    &lt;NewColour /&gt;
+&nbsp;
+    &lt;List /&gt;
+&nbsp;
+    &lt;Output /&gt;
+&nbsp;
+    &lt;footer class='t-main__footer'&gt;
+      &lt;ConfigForm /&gt;
+    &lt;/footer&gt;
+&nbsp;
+  &lt;/main&gt;
+&lt;/template&gt;
+&nbsp;
+&lt;script&gt;
+import Vue from 'vue'
+import { mapState, mapGetters, mapActions } from 'vuex'
+import VueFirestore from 'vue-firestore'
+import router from './router'
+import FilePanel from './components/FilePanel.vue'
+import NewColour from './components/NewColour.vue'
+import List from './components/List.vue'
+import Output from './components/Output.vue'
+import ConfigForm from './components/ConfigForm.vue'
+import { ProjectCollection } from './api/firebase.js'
+import store from './store'
+import { CONNECT, LOAD } from './store/action-types'
+&nbsp;
+Vue.use(VueFirestore)
+&nbsp;
+/* TODO list
+--------------
+* Save state
+* Mobile sopport
+* Assign colours
+* Import from text
+* language packs
+*/
+&nbsp;
+export default {
+  name: 'app',
+&nbsp;
+  store,
+&nbsp;
+  components: {
+    FilePanel,
+    NewColour,
+    List,
+    Output,
+    ConfigForm
+  },
+&nbsp;
+  data: function () {
+    return { // TODO remove some of these for Vuex
+      colours: [],
+      saveState: 0,
+      project: {
+        name: '',
+        list: []
+      },
+      projectKey: null,
+      tempProjectId: ''
+    }
+  },
+&nbsp;
+  created () {
+    this.connect()
+  },
+&nbsp;
+  methods: {
+    // TODO move these to store
+    updateTitle (value) {
+<span class="cstat-no" title="statement not covered" >      let project = this.project</span>
+<span class="cstat-no" title="statement not covered" >      project.name = value</span>
+<span class="cstat-no" title="statement not covered" >      this.project = project</span>
+<span class="cstat-no" title="statement not covered" >      this.saveState = 3</span>
+    },
+&nbsp;
+    loadProject (projectId) {
+<span class="cstat-no" title="statement not covered" >      this.saveState = 1 // loading</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      this.$binding('data', ProjectCollection.where('id', '==', projectId))</span></span>
+        .then((data) =&gt; {
+<span class="cstat-no" title="statement not covered" >          if (data.length === 1) {</span>
+<span class="cstat-no" title="statement not covered" >            this.saveState = 2 // ready</span>
+<span class="cstat-no" title="statement not covered" >            this.project = data[0]</span>
+<span class="cstat-no" title="statement not covered" >            this.colours = (this.project.list || [])</span>
+<span class="cstat-no" title="statement not covered" >            this.projectKey = data[0]['.key']</span>
+          } else {
+<span class="cstat-no" title="statement not covered" >            this.saveState = 6 // error</span>
+<span class="cstat-no" title="statement not covered" >            console.error('Not found')</span>
+          }
+<span class="fstat-no" title="function not covered" >        }).catch(err =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >          this.saveState = 6 // error</span>
+<span class="cstat-no" title="statement not covered" >          console.error(err)</span>
+        })
+    },
+&nbsp;
+<span class="fstat-no" title="function not covered" >    saveProject: async function () {</span>
+<span class="cstat-no" title="statement not covered" >      this.saveState = 4 // saving</span>
+<span class="cstat-no" title="statement not covered" >      this.project.list = this.colours</span>
+<span class="cstat-no" title="statement not covered" >      if (this.projectKey === null) { // new projct, add new</span>
+<span class="cstat-no" title="statement not covered" >        const newID = await this.getNewProjectId()</span>
+<span class="cstat-no" title="statement not covered" >        this.project.id = newID</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >        ProjectCollection.add(this.project)</span></span>
+          .then((data) =&gt; {
+<span class="cstat-no" title="statement not covered" >            this.projectKey = data.id</span>
+<span class="cstat-no" title="statement not covered" >            this.saveState = 5 // saved</span>
+<span class="cstat-no" title="statement not covered" >            router.push({ path: `/${newID}` })</span>
+          })
+      } else { // update project
+<span class="cstat-no" title="statement not covered" >        delete this.project['.key']</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >        ProjectCollection.doc(this.projectKey).update(this.project)</span></span>
+          .then((data) =&gt; {
+<span class="cstat-no" title="statement not covered" >            this.saveState = 5 // saved</span>
+          })
+      }
+    },
+&nbsp;
+<span class="fstat-no" title="function not covered" >    getNewProjectId: async function () {</span>
+      // creat a string of random chars of X length
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      const randId = length =&gt; Math.random().toString(36).substr(2, length)</span></span>
+&nbsp;
+      // set new id
+<span class="cstat-no" title="statement not covered" >      const newId = randId(5)</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      return new Promise(resolve =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >        this.$binding('data', ProjectCollection.where('id', '==', newId))</span></span>
+          .then((data) =&gt; {
+<span class="cstat-no" title="statement not covered" >            console.log('data', data.length, data) // TODO: handle match</span>
+<span class="cstat-no" title="statement not covered" >            resolve(newId)</span>
+<span class="fstat-no" title="function not covered" >          })</span>
+          .catch((...error) =&gt; {
+<span class="cstat-no" title="statement not covered" >            console.error('Error', error) // TODO: handle error better</span>
+          })
+      })
+    },
+&nbsp;
+    hanldeLogIn () {
+<span class="cstat-no" title="statement not covered" >      const route = this.$route.params</span>
+      // logged in
+      // if ID passed via URL then load
+<span class="cstat-no" title="statement not covered" >      if (route &amp;&amp; route.id) {</span>
+<span class="cstat-no" title="statement not covered" >        this.load(route.id)</span>
+      }
+    },
+&nbsp;
+    ...mapActions('cloud', {
+      connect: CONNECT,
+      load: LOAD
+    })
+  },
+&nbsp;
+  computed: {
+    saveStateTxt () { // TODO replace with store
+<span class="cstat-no" title="statement not covered" >      const txt = [</span>
+        'mounted',
+        'loading',
+        'ready',
+        'changed',
+        'saving',
+        'saved',
+        'error'
+      ]
+<span class="cstat-no" title="statement not covered" >      return txt[this.saveState]</span>
+    },
+&nbsp;
+    ...mapState('cloud', ['user']),
+&nbsp;
+    ...mapGetters('settings', ['colourText'])
+  },
+&nbsp;
+  watch: {
+    user (newVal) {
+<span class="cstat-no" title="statement not covered" >      if (newVal) {</span>
+<span class="cstat-no" title="statement not covered" >        this.hanldeLogIn()</span>
+      }
+    }
+  }
+}
+&lt;/script&gt;
+&nbsp;
+&lt;style lang='scss'&gt;
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,600,700,900');
+@import url('https://use.fontawesome.com/releases/v5.5.0/css/all.css');
+@import './assets/styles/app';
+&lt;/style&gt;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri May 03 2019 15:27:50 GMT+1000 (Australian Eastern Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
