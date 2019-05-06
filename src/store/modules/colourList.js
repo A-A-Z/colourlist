@@ -1,16 +1,15 @@
 import Patterns from '@/helpers/Patterns'
 import GetColourName from '@/helpers/GetColourName'
-import { DEFAULT_NEW_COLOUR_INPUT } from '@/constants'
+import { DEFAULT_NEW_COLOUR_INPUT, SAVE_STATES } from '@/constants'
 import {
   ADD_COLOUR_TO_LIST,
   NEW_COLOUR_CHANGE,
   REMOVE_COLOUR_FROM_LIST,
   SET_ACTIVE_COLOUR,
-  SET_COLOURS
+  SET_COLOURS,
+  SET_SAVE_STATE
 } from '../mutation-types'
-import {
-  ON_NEW_COLOUR_INPUT
-} from '../action-types'
+import { ON_NEW_COLOUR_INPUT } from '../action-types'
 
 const state = () => ({
   activeColour: null,
@@ -106,6 +105,9 @@ const actions = {
     // if new value is invalid then reset to old value
     if (!Patterns.inputColour.test(value)) {
       commit(NEW_COLOUR_CHANGE, oldValue)
+    } else {
+      // if really changed then update save state
+      commit(`cloud/${SET_SAVE_STATE}`, SAVE_STATES.CHANGED, { root: true })
     }
   }
 }

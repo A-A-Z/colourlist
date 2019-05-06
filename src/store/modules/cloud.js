@@ -1,5 +1,5 @@
 import { SAVE_STATES } from '@/constants'
-import { db, auth, ProjectCollection } from '@/api/firebase.js'
+import { auth, ProjectCollection } from '@/api/firebase.js'
 import {
   SET_COLOURS,
   SET_PROJECT,

@@ -12,10 +12,7 @@ const ProjectCollection = db.collection('projects')
 
 // handle anonymous log in
 const auth = firebase.auth()
-// auth.signInAnonymously()
-//   .catch(error => {
-//     console.error('signInAnonymously error', error)
-//   })
+
 // TODO add more rules
 // https://firebase.google.com/docs/firestore/security/get-started?authuser=0
 
