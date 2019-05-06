@@ -1,15 +1,17 @@
 import { createLocalVue } from '@vue/test-utils'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import colourList from '@/store/modules/colourList'
+import { colourList, settings, cloud } from '@/store/modules'
 import { DEFAULT_NEW_COLOUR_INPUT } from '@/constants'
 import {
   ADD_COLOUR_TO_LIST,
   NEW_COLOUR_CHANGE,
   REMOVE_COLOUR_FROM_LIST,
   SET_ACTIVE_COLOUR,
-  SET_COLOURS
+  SET_COLOURS,
+  SET_SETTING
 } from '@/store/mutation-types.js'
+import { ON_NEW_COLOUR_INPUT } from '@/store/action-types'
 
 Vue.use(Vuex)
 
@@ -53,3 +55,70 @@ describe('colourList mutations', () => {
     expect(store.state.colourList.colours).toEqual(['#ff0000', '#00ff00', '#0000ff'])
   })
 })
+
+describe('colourList getters', () => {
+  let store
+
+  beforeEach(() => {
+    store = new Vuex.Store({ modules: { colourList, settings } })
+  })
+
+  it('newColourHex to pass Hex colour', () => {
+    store.commit(`colourList/${NEW_COLOUR_CHANGE}`, '#fff000')
+    expect(store.getters['colourList/newColourHex']).toEqual('#fff000')
+  })
+
+  it('newColourHex to add hash to HEX colour', () => {
+    store.commit(`colourList/${NEW_COLOUR_CHANGE}`, 'fff000')
+    expect(store.getters['colourList/newColourHex']).toEqual('#fff000')
+  })
+
+  it('newColourHex converts to uppercase', () => {
+    store.commit(`colourList/${NEW_COLOUR_CHANGE}`, '#fff000')
+    store.commit(`settings/${SET_SETTING}`, { isLowercase: false })
+    expect(store.getters['colourList/newColourHex']).toEqual('#FFF000')
+  })
+
+  it('newColourHex converts to lowercase', () => {
+    store.commit(`colourList/${NEW_COLOUR_CHANGE}`, '#FFF000')
+    store.commit(`settings/${SET_SETTING}`, { isLowercase: true })
+    expect(store.getters['colourList/newColourHex']).toEqual('#fff000')
+  })
+
+  it('isNewColourValid is true', () => {
+    store.commit(`colourList/${NEW_COLOUR_CHANGE}`, '#fff000')
+    expect(store.getters['colourList/isNewColourValid']).toEqual(true)
+  })
+
+  it('isNewColourValid is false', () => {
+    store.commit(`colourList/${NEW_COLOUR_CHANGE}`, '#fff00x')
+    expect(store.getters['colourList/isNewColourValid']).toEqual(false)
+  })
+
+  it('colourNames returns colours with names', () => {
+    store.commit(`colourList/${SET_COLOURS}`, { list: ['#ffffff', '#000000', '#ff0000', '#7c2626'] })
+    expect(store.getters['colourList/colourNames']).toEqual(
+      {
+        '#ffffff': 'White',
+        '#000000': 'Black',
+        '#ff0000': 'Red',
+        '#7c2626': 'Crown of Thorns'
+      }
+    )
+  })
+})
+
+// TODO how to handle Firebase in jest?
+// describe('colourList getters', () => {
+//   let store
+//
+//   beforeEach(() => {
+//     store = new Vuex.Store({ modules: { colourList, cloud } })
+//   })
+//
+//   it('ON_NEW_COLOUR_INPUT', () => {
+//     store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#f')
+//     expect(store.getters['colourList/newColourHex']).toEqual('#f')
+//   })
+//
+// })
