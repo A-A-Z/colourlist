@@ -13,11 +13,15 @@ describe('App.vue', () => {
     wrapper = shallowMount(App, {
       localVue,
       router
-    });
+    })
   })
 
   it('renders main', () => {
     expect(wrapper.findAll('main')).toHaveLength(1)
+  })
+
+  test('renders layout to snapshot', () => {
+    expect(wrapper.element).toMatchSnapshot()
   })
 
   // it('Method colourCase returns lowercase', () => {

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`List.vue renders correctly 1`] = `
+<section
+  class="t-main__section"
+>
+  <ul
+    class="o-colour-list"
+  >
+    <li
+      class="o-colour-list__item"
+      role="button"
+      style="background-color: rgb(255, 0, 0);"
+      tabindex="0"
+    >
+      <!---->
+       
+      <div
+        class="o-colour-list__label"
+      >
+        Red
+      </div>
+    </li>
+    <li
+      aria-pressed="true"
+      class="o-colour-list__item o-colour-list__item--active"
+      role="button"
+      style="background-color: rgb(0, 255, 0);"
+      tabindex="0"
+    >
+      <!---->
+       
+      <div
+        class="o-colour-list__label"
+      >
+        Green
+      </div>
+    </li>
+    <li
+      class="o-colour-list__item"
+      role="button"
+      style="background-color: rgb(0, 0, 255);"
+      tabindex="0"
+    >
+      <!---->
+       
+      <div
+        class="o-colour-list__label"
+      >
+        Blue
+      </div>
+    </li>
+  </ul>
+</section>
+`;
