@@ -22,20 +22,17 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import { mapState, mapGetters, mapActions } from 'vuex'
-import VueFirestore from 'vue-firestore'
-import router from './router'
+// import VueFirestore from 'vue-firestore'
+// import router from './router'
 import FilePanel from './components/FilePanel.vue'
 import NewColour from './components/NewColour.vue'
 import List from './components/List.vue'
 import Output from './components/Output.vue'
 import ConfigForm from './components/ConfigForm.vue'
-import { ProjectCollection } from './api/firebase.js'
+// import { ProjectCollection } from './api/firebase.js'
 import store from './store'
 import { CONNECT, LOAD } from './store/action-types'
-
-Vue.use(VueFirestore)
 
 /* TODO list
 --------------
@@ -78,71 +75,71 @@ export default {
 
   methods: {
     // TODO move these to store
-    updateTitle (value) {
-      let project = this.project
-      project.name = value
-      this.project = project
-      this.saveState = 3
-    },
+    // updateTitle (value) {
+    //   let project = this.project
+    //   project.name = value
+    //   this.project = project
+    //   this.saveState = 3
+    // },
 
-    loadProject (projectId) {
-      this.saveState = 1 // loading
-      this.$binding('data', ProjectCollection.where('id', '==', projectId))
-        .then((data) => {
-          if (data.length === 1) {
-            this.saveState = 2 // ready
-            this.project = data[0]
-            this.colours = (this.project.list || [])
-            this.projectKey = data[0]['.key']
-          } else {
-            this.saveState = 6 // error
-            console.error('Not found')
-          }
-        }).catch(err => {
-          this.saveState = 6 // error
-          console.error(err)
-        })
-    },
+    // loadProject (projectId) {
+    //   this.saveState = 1 // loading
+    //   this.$binding('data', ProjectCollection.where('id', '==', projectId))
+    //     .then((data) => {
+    //       if (data.length === 1) {
+    //         this.saveState = 2 // ready
+    //         this.project = data[0]
+    //         this.colours = (this.project.list || [])
+    //         this.projectKey = data[0]['.key']
+    //       } else {
+    //         this.saveState = 6 // error
+    //         console.error('Not found')
+    //       }
+    //     }).catch(err => {
+    //       this.saveState = 6 // error
+    //       console.error(err)
+    //     })
+    // },
 
-    saveProject: async function () {
-      this.saveState = 4 // saving
-      this.project.list = this.colours
-      if (this.projectKey === null) { // new projct, add new
-        const newID = await this.getNewProjectId()
-        this.project.id = newID
-        ProjectCollection.add(this.project)
-          .then((data) => {
-            this.projectKey = data.id
-            this.saveState = 5 // saved
-            router.push({ path: `/${newID}` })
-          })
-      } else { // update project
-        delete this.project['.key']
-        ProjectCollection.doc(this.projectKey).update(this.project)
-          .then((data) => {
-            this.saveState = 5 // saved
-          })
-      }
-    },
+    // saveProject: async function () {
+    //   this.saveState = 4 // saving
+    //   this.project.list = this.colours
+    //   if (this.projectKey === null) { // new projct, add new
+    //     const newID = await this.getNewProjectId()
+    //     this.project.id = newID
+    //     ProjectCollection.add(this.project)
+    //       .then((data) => {
+    //         this.projectKey = data.id
+    //         this.saveState = 5 // saved
+    //         router.push({ path: `/${newID}` })
+    //       })
+    //   } else { // update project
+    //     delete this.project['.key']
+    //     ProjectCollection.doc(this.projectKey).update(this.project)
+    //       .then((data) => {
+    //         this.saveState = 5 // saved
+    //       })
+    //   }
+    // },
 
-    getNewProjectId: async function () {
-      // creat a string of random chars of X length
-      const randId = length => Math.random().toString(36).substr(2, length)
-
-      // set new id
-      const newId = randId(5)
-
-      return new Promise(resolve => {
-        this.$binding('data', ProjectCollection.where('id', '==', newId))
-          .then((data) => {
-            console.log('data', data.length, data) // TODO: handle match
-            resolve(newId)
-          })
-          .catch((...error) => {
-            console.error('Error', error) // TODO: handle error better
-          })
-      })
-    },
+    // getNewProjectId: async function () {
+    //   // creat a string of random chars of X length
+    //   const randId = length => Math.random().toString(36).substr(2, length)
+    //
+    //   // set new id
+    //   const newId = randId(5)
+    //
+    //   return new Promise(resolve => {
+    //     this.$binding('data', ProjectCollection.where('id', '==', newId))
+    //       .then((data) => {
+    //         console.log('data', data.length, data) // TODO: handle match
+    //         resolve(newId)
+    //       })
+    //       .catch((...error) => {
+    //         console.error('Error', error) // TODO: handle error better
+    //       })
+    //   })
+    // },
 
     hanldeLogIn () {
       const route = this.$route.params
@@ -180,9 +177,7 @@ export default {
 
   watch: {
     user (newVal) {
-      if (newVal) {
-        this.hanldeLogIn()
-      }
+      if (newVal) { this.hanldeLogIn() }
     }
   }
 }

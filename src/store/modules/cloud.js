@@ -1,16 +1,22 @@
+import Vue from 'vue'
+import VueFirestore from 'vue-firestore'
 import { SAVE_STATES } from '@/constants'
-import { auth, ProjectCollection } from '@/api/firebase.js'
+import { db } from '@/api/firebase.js'
 import {
   SET_COLOURS,
   SET_PROJECT,
   SET_SAVE_STATE,
-  SET_USER
+  SET_USER,
+  STORE_DB
 } from '../mutation-types'
 import { CONNECT, CREATE, LOAD, UPDATE } from '../action-types'
 
+Vue.use(VueFirestore)
+
 const state = () => ({
   saveState: SAVE_STATES.MOUNTED,
-  user: null
+  user: null,
+  db: null
 })
 
 const mutations = {
@@ -20,20 +26,27 @@ const mutations = {
 
   [SET_USER] (state, userId) {
     state.user = userId
+  },
+
+  [STORE_DB] (state, db) {
+    state.db = db
   }
 }
 
 const actions = {
-  [CONNECT]: ({ commit }) => {
+  [CONNECT]: ({ commit, state }) => {
+    // setup new db
+    commit(STORE_DB, new db())
+
     // sign into firebase anonymously
-    auth.signInAnonymously()
+    state.db.auth.signInAnonymously()
       .catch(error => {
         commit(SET_SAVE_STATE, SAVE_STATES.ERROR)
         console.error('signInAnonymously error', error) // TODO error hanlding
       })
 
     // set up watcher for user login
-    auth.onAuthStateChanged(user => {
+    state.db.auth.onAuthStateChanged(user => {
       commit(SET_SAVE_STATE, SAVE_STATES.READY)
       commit(SET_USER, user)
     })
@@ -44,10 +57,16 @@ const actions = {
     console.log('Create...')
   },
 
-  async [LOAD] ({ commit }, projectId) {
+  async [LOAD] ({ commit, state }, projectId) {
+    if (state.db === null) {
+      console.error(`Error: you must CONNECT to db before loading`)
+      commit(SET_SAVE_STATE, SAVE_STATES.ERROR)
+      return false
+    }
+
     commit(SET_SAVE_STATE, SAVE_STATES.LOADING)
 
-    const { docs } = await ProjectCollection.where('id', '==', projectId).get()
+    const { docs } = await state.db.projects.where('id', '==', projectId).get()
     if (docs.length) {
       // project found
       const project = docs[0].data()

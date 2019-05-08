@@ -12,6 +12,7 @@ export const SET_SETTING = 'SET_SETTING'
 // cloud
 export const SET_SAVE_STATE = 'SET_SAVE_STATE'
 export const SET_USER = 'SET_USER'
+export const STORE_DB = 'STORE_DB'
 
 // project
 export const SET_PROJECT = 'SET_PROJECT'

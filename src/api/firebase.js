@@ -4,20 +4,19 @@ import 'firebase/firestore'
 import 'firebase/auth'
 import config from '@/config/firebase.json'
 
-firebase.initializeApp(config)
+export class db {
+  constructor () {
+    if (!firebase.apps.length) {
+      // start up firebase app (if not already)
+      firebase.initializeApp(config)
+    }
 
-const db = firebase.firestore()
+    const db = firebase.firestore()
 
-const ProjectCollection = db.collection('projects')
+    // set projects collection
+    this.projects = db.collection('projects')
 
-// handle anonymous log in
-const auth = firebase.auth()
-
-// TODO add more rules
-// https://firebase.google.com/docs/firestore/security/get-started?authuser=0
-
-export {
-  db,
-  auth,
-  ProjectCollection
+    // handle anonymous log in
+    this.auth = firebase.auth()
+  }
 }
