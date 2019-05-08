@@ -28,7 +28,13 @@ exports[`List.vue renders correctly 1`] = `
       style="background-color: rgb(0, 255, 0);"
       tabindex="0"
     >
-      <!---->
+      <div
+        class="o-colour-list__delete"
+      >
+        <i
+          class="fas fa-trash-alt"
+        />
+      </div>
        
       <div
         class="o-colour-list__label"
