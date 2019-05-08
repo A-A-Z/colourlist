@@ -141,7 +141,7 @@ export default {
     //   })
     // },
 
-    hanldeLogIn () {
+    handleLogIn () {
       const route = this.$route.params
       // logged in
       // if ID passed via URL then load
@@ -177,7 +177,7 @@ export default {
 
   watch: {
     user (newVal) {
-      if (newVal) { this.hanldeLogIn() }
+      if (newVal) { this.handleLogIn() }
     }
   }
 }

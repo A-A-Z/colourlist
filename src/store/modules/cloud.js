@@ -9,7 +9,7 @@ import {
   SET_USER,
   STORE_DB
 } from '../mutation-types'
-import { CONNECT, CREATE, LOAD, UPDATE } from '../action-types'
+import { CONNECT, CREATE, LOAD, UPDATE, GENERATE_PROJECT_ID } from '../action-types'
 
 Vue.use(VueFirestore)
 
@@ -83,7 +83,12 @@ const actions = {
   [UPDATE]: () => {
     /* TODO */
     console.log('Update...')
+  },
+
+  async [GENERATE_PROJECT_ID] ({ commit, state }) {
+    // TODO
   }
+
 }
 
 export default {

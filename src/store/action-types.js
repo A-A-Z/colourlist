@@ -7,6 +7,7 @@ export const CONNECT = 'CONNECT'
 export const CREATE = 'CREATE'
 export const LOAD = 'LOAD'
 export const UPDATE = 'UPDATE'
+export const GENERATE_PROJECT_ID = 'GENERATE_PROJECT_ID'
 
 // project
 export const ON_TITLE_CHANGE = 'ON_TITLE_CHANGE'
