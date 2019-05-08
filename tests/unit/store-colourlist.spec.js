@@ -2,7 +2,7 @@ import { createLocalVue } from '@vue/test-utils'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { colourList, settings, cloud } from '@/store/modules'
-import { DEFAULT_NEW_COLOUR_INPUT } from '@/constants'
+import { DEFAULT_NEW_COLOUR_INPUT, SAVE_STATES } from '@/constants'
 import {
   ADD_COLOUR_TO_LIST,
   NEW_COLOUR_CHANGE,
@@ -108,17 +108,26 @@ describe('colourList getters', () => {
   })
 })
 
-// TODO how to handle Firebase in jest?
-// describe('colourList getters', () => {
-//   let store
-//
-//   beforeEach(() => {
-//     store = new Vuex.Store({ modules: { colourList, cloud } })
-//   })
-//
-//   it('ON_NEW_COLOUR_INPUT', () => {
-//     store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#f')
-//     expect(store.getters['colourList/newColourHex']).toEqual('#f')
-//   })
-//
-// })
+describe('colourList actions', () => {
+  let store
+
+  beforeEach(() => {
+    store = new Vuex.Store({ modules: { colourList, settings, cloud } })
+  })
+
+  it('ON_NEW_COLOUR_INPUT updates newColourInput', () => {
+    store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#f')
+    expect(store.state.colourList.newColourInput).toEqual('#f')
+  })
+
+  it('ON_NEW_COLOUR_INPUT invalid values do not updates newColourInput', () => {
+    store.commit(`colourList/${NEW_COLOUR_CHANGE}`, '#f')
+    store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#fx')
+    expect(store.state.colourList.newColourInput).toEqual('#f')
+  })
+
+  it('ON_NEW_COLOUR_INPUT updates save state to changed', () => {
+    store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#f')
+    expect(store.state.cloud.saveState).toEqual(SAVE_STATES.CHANGED)
+  })
+})
