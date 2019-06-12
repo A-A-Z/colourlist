@@ -3,18 +3,19 @@ import GetColourName from '@/helpers/GetColourName'
 import { DEFAULT_NEW_COLOUR_INPUT, SAVE_STATES } from '@/constants'
 import {
   ADD_COLOUR_TO_LIST,
+  EDIT_COLOUR_IN_LIST,
   NEW_COLOUR_CHANGE,
   REMOVE_COLOUR_FROM_LIST,
   SET_ACTIVE_COLOUR,
   SET_COLOURS,
   SET_SAVE_STATE
 } from '../mutation-types'
-import { ON_NEW_COLOUR_INPUT } from '../action-types'
+import { ON_NEW_COLOUR_INPUT, ON_COLOUR_SUBMIT } from '../action-types'
 
 const state = () => ({
   activeColour: null,
   colours: [],
-  newColourInput: DEFAULT_NEW_COLOUR_INPUT,
+  newColourInput: DEFAULT_NEW_COLOUR_INPUT
 })
 
 const mutations = {
@@ -22,7 +23,18 @@ const mutations = {
     let colours = state.colours.slice()
     colours.push(state.newColourInput)
     state.colours = colours
-    state.newColourInput = DEFAULT_NEW_COLOUR_INPUT
+  },
+
+  [EDIT_COLOUR_IN_LIST] (state, { oldValue, newValue }) {
+    let colours = state.colours.slice()
+
+    // find old colour
+    const colourIndex = colours.indexOf(oldValue)
+    if (colourIndex !== -1) {
+      // if found then update
+      colours[colourIndex] = newValue
+      state.colours = colours
+    }
   },
 
   [NEW_COLOUR_CHANGE] (state, value) {
@@ -105,10 +117,25 @@ const actions = {
     // if new value is invalid then reset to old value
     if (!Patterns.inputColour.test(value)) {
       commit(NEW_COLOUR_CHANGE, oldValue)
-    } else {
-      // if really changed then update save state
-      commit(`cloud/${SET_SAVE_STATE}`, SAVE_STATES.CHANGED, { root: true })
     }
+  },
+
+  [ON_COLOUR_SUBMIT] ({ commit, state }) {
+    if (state.activeColour === null ) { // no active: new colour
+      commit(ADD_COLOUR_TO_LIST, state.newColourInput)
+    } else { // active: edit colour
+      commit(EDIT_COLOUR_IN_LIST, {
+        oldValue: state.activeColour,
+        newValue: state.newColourInput
+      })
+      commit(SET_ACTIVE_COLOUR, null)
+    }
+
+    // update save state to "changed"
+    commit(`cloud/${SET_SAVE_STATE}`, SAVE_STATES.CHANGED, { root: true })
+
+    // reset
+    commit(NEW_COLOUR_CHANGE, DEFAULT_NEW_COLOUR_INPUT)
   }
 }
 

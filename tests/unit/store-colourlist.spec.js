@@ -5,13 +5,18 @@ import { colourList, settings, cloud } from '@/store/modules'
 import { DEFAULT_NEW_COLOUR_INPUT, SAVE_STATES } from '@/constants'
 import {
   ADD_COLOUR_TO_LIST,
+  EDIT_COLOUR_IN_LIST,
   NEW_COLOUR_CHANGE,
   REMOVE_COLOUR_FROM_LIST,
   SET_ACTIVE_COLOUR,
   SET_COLOURS,
+  SET_SAVE_STATE,
   SET_SETTING
 } from '@/store/mutation-types.js'
-import { ON_NEW_COLOUR_INPUT } from '@/store/action-types'
+import {
+  ON_NEW_COLOUR_INPUT,
+  ON_COLOUR_SUBMIT
+} from '@/store/action-types'
 
 Vue.use(Vuex)
 
@@ -26,12 +31,6 @@ describe('colourList mutations', () => {
     store.commit(`colourList/${NEW_COLOUR_CHANGE}`, '#fff000')
     store.commit(`colourList/${ADD_COLOUR_TO_LIST}`)
     expect(store.state.colourList.colours).toEqual(['#fff000'])
-  })
-
-  it('ADD_COLOUR_TO_LIST resets newColourInput to default', () => {
-    store.commit(`colourList/${NEW_COLOUR_CHANGE}`, '#fff000')
-    store.commit(`colourList/${ADD_COLOUR_TO_LIST}`)
-    expect(store.state.colourList.newColourInput).toEqual(DEFAULT_NEW_COLOUR_INPUT)
   })
 
   it('NEW_COLOUR_CHANGE change value of newColourInput', () => {
@@ -109,25 +108,158 @@ describe('colourList getters', () => {
 })
 
 describe('colourList actions', () => {
-  let store
+  let mutations
+  let mockColourList
 
   beforeEach(() => {
-    store = new Vuex.Store({ modules: { colourList, settings, cloud } })
+    mutations = {
+      [ADD_COLOUR_TO_LIST]: jest.fn(),
+      [EDIT_COLOUR_IN_LIST]: jest.fn(),
+      [NEW_COLOUR_CHANGE]: jest.fn(),
+      [SET_ACTIVE_COLOUR]: jest.fn(),
+      [SET_SAVE_STATE]: jest.fn()
+    }
+
+    mockColourList = {
+      ...colourList,
+      ...{ mutations }
+    }
   })
 
-  it('ON_NEW_COLOUR_INPUT updates newColourInput', () => {
-    store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#f')
-    expect(store.state.colourList.newColourInput).toEqual('#f')
+  it('ON_NEW_COLOUR_INPUT calls NEW_COLOUR_CHANGE with new value', () => {
+    const stateValues = {
+      activeColour: null,
+      colours: [],
+      newColourInput: '#fff00'
+    }
+    const store = new Vuex.Store({
+      modules: {
+        colourList: { ...mockColourList, ...{ state: () => stateValues } },
+        settings,
+        cloud
+      }
+    })
+    store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#fff000')
+    expect(mutations.NEW_COLOUR_CHANGE).toHaveBeenCalledWith(stateValues, '#fff000')
   })
 
-  it('ON_NEW_COLOUR_INPUT invalid values do not updates newColourInput', () => {
-    store.commit(`colourList/${NEW_COLOUR_CHANGE}`, '#f')
-    store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#fx')
-    expect(store.state.colourList.newColourInput).toEqual('#f')
+  it('ON_NEW_COLOUR_INPUT resets NEW_COLOUR_CHANGE if colour is invalid', () => {
+    const stateValues = {
+      activeColour: null,
+      colours: [],
+      newColourInput: '#fff00'
+    }
+    const store = new Vuex.Store({
+      modules: {
+        colourList: { ...mockColourList, ...{ state: () => stateValues } },
+        settings,
+        cloud
+      }
+    })
+    store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#fff00x')
+    expect(mutations.NEW_COLOUR_CHANGE).toHaveBeenNthCalledWith(2, stateValues, stateValues.newColourInput);
   })
 
-  it('ON_NEW_COLOUR_INPUT updates save state to changed', () => {
-    store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#f')
-    expect(store.state.cloud.saveState).toEqual(SAVE_STATES.CHANGED)
+  it('ON_NEW_COLOUR_INPUT does not reset NEW_COLOUR_CHANGE if colour is valid', () => {
+    const stateValues = {
+      activeColour: null,
+      colours: [],
+      newColourInput: '#fff00'
+    }
+    const store = new Vuex.Store({
+      modules: {
+        colourList: { ...mockColourList, ...{ state: () => stateValues } },
+        settings,
+        cloud
+      }
+    })
+    store.dispatch(`colourList/${ON_NEW_COLOUR_INPUT}`, '#fff000')
+    expect(mutations.NEW_COLOUR_CHANGE).toHaveBeenCalledTimes(1)
+  })
+
+  it('ON_COLOUR_SUBMIT calls ADD_COLOUR_TO_LIST if no active colour', () => {
+    const stateValues = {
+      activeColour: null,
+      colours: [],
+      newColourInput: '#ffffff'
+    }
+    const store = new Vuex.Store({
+      modules: {
+        colourList: { ...mockColourList, ...{ state: () => stateValues } },
+        settings,
+        cloud
+      }
+    })
+    store.dispatch(`colourList/${ON_COLOUR_SUBMIT}`)
+    expect(mutations.ADD_COLOUR_TO_LIST).toHaveBeenCalled()
+  })
+
+  it('ON_COLOUR_SUBMIT calls EDIT_COLOUR_IN_LIST if has active colour', () => {
+    const stateValues = {
+      activeColour: '#00ff00',
+      colours: [ '#00ff00' ],
+      newColourInput: '#ffffff'
+    }
+    const store = new Vuex.Store({
+      modules: {
+        colourList: { ...mockColourList, ...{ state: () => stateValues } },
+        settings,
+        cloud
+      }
+    })
+    store.dispatch(`colourList/${ON_COLOUR_SUBMIT}`)
+    expect(mutations.EDIT_COLOUR_IN_LIST).toHaveBeenCalled()
+  })
+
+  it('ON_COLOUR_SUBMIT resets active colour if has active colour', () => {
+    const stateValues = {
+      activeColour: '#00ff00',
+      colours: [ '#00ff00' ],
+      newColourInput: '#ffffff'
+    }
+    const store = new Vuex.Store({
+      modules: {
+        colourList: { ...mockColourList, ...{ state: () => stateValues } },
+        settings,
+        cloud
+      }
+    })
+    store.dispatch(`colourList/${ON_COLOUR_SUBMIT}`)
+    expect(mutations.SET_ACTIVE_COLOUR).toHaveBeenCalledWith(stateValues, null)
+  })
+
+  it('ON_COLOUR_SUBMIT sets save state to "Changed"', () => {
+    const stateValues = {
+      activeColour: null,
+      colours: [ '#00ff00' ],
+      newColourInput: '#ffffff'
+    }
+    const cloudState = { db: null, saveState: 'mounted', user: null }
+    const store = new Vuex.Store({
+      modules: {
+        colourList: { ...mockColourList, ...{ state: () => stateValues } },
+        settings,
+        cloud: { ...cloud, ...{ mutations, state: () => cloudState } }
+      }
+    })
+    store.dispatch(`colourList/${ON_COLOUR_SUBMIT}`)
+    expect(mutations.SET_SAVE_STATE).toHaveBeenCalledWith(cloudState, SAVE_STATES.CHANGED)
+  })
+
+  it('ON_COLOUR_SUBMIT resets NEW_COLOUR_CHANGE', () => {
+    const stateValues = {
+      activeColour: null,
+      colours: [ '#00ff00' ],
+      newColourInput: '#ffffff'
+    }
+    const store = new Vuex.Store({
+      modules: {
+        colourList: { ...mockColourList, ...{ state: () => stateValues } },
+        settings,
+        cloud
+      }
+    })
+    store.dispatch(`colourList/${ON_COLOUR_SUBMIT}`)
+    expect(mutations.NEW_COLOUR_CHANGE).toHaveBeenCalledWith(stateValues, DEFAULT_NEW_COLOUR_INPUT)
   })
 })

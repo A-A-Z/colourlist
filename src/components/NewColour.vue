@@ -36,7 +36,7 @@
         spellcheck='false'
         :disabled='isDisabled'
         @input='updateColourInput'
-        @keyup.enter="addColour"
+        @keyup.enter="onColourSubmit"
       />
       <button
         :class="[
@@ -44,7 +44,7 @@
           isNewColourValid ? '' : 'm-colour-field__add--disabled'
         ]"
         type='button'
-        @click='addColour'
+        @click='onColourSubmit'
         :disabled='!isNewColourValid || isDisabled'
         aria-label='Add colour to list'
       />
@@ -80,11 +80,10 @@
 
 <script>
 import { Sketch } from 'vue-color'
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import GetColourName from '@/helpers/GetColourName'
 import store from '@/store'
-import { ADD_COLOUR_TO_LIST } from '@/store/mutation-types'
-import { ON_NEW_COLOUR_INPUT } from '@/store/action-types'
+import { ON_NEW_COLOUR_INPUT, ON_COLOUR_SUBMIT } from '@/store/action-types'
 import { SAVE_STATES } from '@/constants'
 
 export default {
@@ -123,12 +122,13 @@ export default {
       this.isPickerOpen = !this.isPickerOpen
     },
 
-    ...mapMutations('colourList', {
-      addColour: ADD_COLOUR_TO_LIST
-    }),
+    // ...mapMutations('colourList', {
+    //   addColour: ADD_COLOUR_TO_LIST
+    // }),
 
     ...mapActions('colourList', {
-      onNewColourInput: ON_NEW_COLOUR_INPUT
+      onNewColourInput: ON_NEW_COLOUR_INPUT,
+      onColourSubmit: ON_COLOUR_SUBMIT
     })
   },
 

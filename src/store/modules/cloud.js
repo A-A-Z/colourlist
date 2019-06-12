@@ -86,6 +86,13 @@ const actions = {
   },
 
   async [GENERATE_PROJECT_ID] ({ commit, state }) {
+    // creat a string of random chars of X length
+    const randId = length => Math.random().toString(36).substr(2, length)
+
+    // set new id
+    const newId = randId(5)
+
+    // check ID
     // TODO
   }
 
