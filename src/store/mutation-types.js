@@ -11,6 +11,7 @@ export const SET_COLOURS = 'SET_COLOURS'
 export const SET_SETTING = 'SET_SETTING'
 
 // cloud
+export const SET_PROJECT_KEY = 'SET_PROJECT_KEY'
 export const SET_SAVE_STATE = 'SET_SAVE_STATE'
 export const SET_USER = 'SET_USER'
 export const STORE_DB = 'STORE_DB'

@@ -5,6 +5,7 @@ import { db } from '@/api/firebase.js'
 import {
   SET_COLOURS,
   SET_PROJECT,
+  SET_PROJECT_KEY,
   SET_SAVE_STATE,
   SET_USER,
   STORE_DB
@@ -16,12 +17,17 @@ Vue.use(VueFirestore)
 const state = () => ({
   saveState: SAVE_STATES.MOUNTED,
   user: null,
-  db: null
+  db: null,
+  projectKey: null
 })
 
 const mutations = {
-  [SET_SAVE_STATE] (state, newState) {
-    state.saveState = newState
+  [SET_PROJECT_KEY] (state, key) {
+    state.projectKey = key
+  },
+
+  [SET_SAVE_STATE] (state, newSaveState) {
+    state.saveState = newSaveState
   },
 
   [SET_USER] (state, userId) {
@@ -70,6 +76,7 @@ const actions = {
     if (docs.length) {
       // project found
       const project = docs[0].data()
+      commit(SET_PROJECT_KEY, docs[0].id)
       commit(`colourList/${SET_COLOURS}`, project, { root: true })
       commit(`project/${SET_PROJECT}`, { id: project.id, title: project.name }, { root: true })
       commit(SET_SAVE_STATE, SAVE_STATES.READY)
@@ -80,9 +87,9 @@ const actions = {
     }
   },
 
-  [UPDATE]: () => {
+  async [UPDATE] ({ commit, state }) {
     /* TODO */
-    console.log('Update...')
+    console.log('Update...', state)
   },
 
   async [GENERATE_PROJECT_ID] ({ commit, state }) {
