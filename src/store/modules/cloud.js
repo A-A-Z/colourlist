@@ -39,6 +39,15 @@ const mutations = {
   }
 }
 
+const getters = {
+  getProjectData: (state, getters, { project, colourList }) => {
+    return {
+      ...project,
+      list: colourList.colours
+    }
+  }
+}
+
 const actions = {
   [CONNECT]: ({ commit, state }) => {
     // setup new db
@@ -87,9 +96,13 @@ const actions = {
     }
   },
 
-  async [UPDATE] ({ commit, state }) {
-    /* TODO */
-    console.log('Update...', state)
+  async [UPDATE] ({ commit, state, getters }) {
+    const { db, projectKey } = state
+    const projectData = getters.getProjectData
+
+    commit(SET_SAVE_STATE, SAVE_STATES.SAVING)
+    await state.db.projects.doc(projectKey).update(projectData)
+    commit(SET_SAVE_STATE, SAVE_STATES.SAVED)
   },
 
   async [GENERATE_PROJECT_ID] ({ commit, state }) {
@@ -109,5 +122,6 @@ export default {
   namespaced: true,
   state,
   mutations,
+  getters,
   actions
 }
